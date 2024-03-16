@@ -5,3 +5,5 @@ from .models import AbstractUser, Ticket, Review, UserFollows
 admin.site.register(Ticket)
 admin.site.register(Review)
 admin.site.register(UserFollows)
+# admin.site.register(User)
+
