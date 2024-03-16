@@ -10,3 +10,4 @@ from .models import Review
 class HomeView(ListView):
     model = Review
     template_name = 'base.html'
+
