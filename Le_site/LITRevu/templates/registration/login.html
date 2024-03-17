@@ -1,4 +1,6 @@
-{% if user.is_authenticated %}
+{% extends base %}
+
+        {% if user.is_authenticated %}
             <p>Vous êtes connectés en tant {{ request.user }}.
             </p>
             <a>Se déconnecter</a>

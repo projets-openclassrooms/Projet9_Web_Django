@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
 
-from . import authentification
+from . import authentification, forms
 
 
 def login_page(request):
