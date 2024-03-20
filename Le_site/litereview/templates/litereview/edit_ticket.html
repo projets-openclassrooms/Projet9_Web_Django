@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center mt-4 mb-3">
+            <h2>Modifier votre ticket</h2>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {{ edit_form.title}}
+        {{ edit_form.description }}
+        <img src="/media/{{ edit_form.image.value }}" alt="Image existante">
+        {{ edit_form.image }}
+        {% csrf_token %}
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-4 text-center">
+                <button type="submit" class="btn btn-dark w-75">Envoyer</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

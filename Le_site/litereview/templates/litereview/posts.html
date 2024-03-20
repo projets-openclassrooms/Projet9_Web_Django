@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container d-grid gap-3">
+    <div class="row text-center mt-4">
+        <div class="col">
+            <h2>Vos posts</h2>
+        </div>
+    </div>
+
+    {% for post in posts %}
+    {% if post|model_type == "Ticket" %}
+
+    {% elif post|model_type == "Review" %}
+
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock content %}  
