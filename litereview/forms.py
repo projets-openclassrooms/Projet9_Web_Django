@@ -13,7 +13,6 @@ class SignUpForm(UserCreationForm):
         self.fields["username"].label = "Nom d'utilisateur :"
         self.fields["password1"].label = "Mot de passe :"
         self.fields["password2"].label = "Confirmer le mot de passe :"
-        self.fields["email"].label = "Adresse e-mail :"
 
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
