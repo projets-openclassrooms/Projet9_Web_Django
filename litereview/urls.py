@@ -16,13 +16,22 @@ Including another URLconf
 """
 
 from django.urls import path
+from django.contrib.auth.views import LoginView
 
 import litereview.views
 
 urlpatterns = [
     # path("", litereview.views.index_page, name="login"),
-    path("index/", litereview.views.index_page, name="index"),
+    path("index/", litereview.views.index_page, name="home"),
     path("signup/", litereview.views.signup_page, name="signup"),
+    path(
+        "login/",
+        LoginView.as_view(
+            template_name="litereview/login.html",
+            redirect_authenticated_user=True,
+        ),
+        name="login",
+    ),
     path("logout/", litereview.views.logout_page, name="logout"),
     path("flux", litereview.views.feed_page, name="flux"),
     path("post", litereview.views.posts_page, name="post"),

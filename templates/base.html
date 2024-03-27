@@ -1,28 +1,42 @@
-<!DOCTYPE html>
 
 {%load static%}
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>LITReview</title>
+    <link rel="stylesheet" href="{% static 'css/litereview/styles.css' %}"/>
+
 </head>
 <body>
-{% if user.is_authenticated %}
-<div class="nav-scroller py-1 mb-3 border-bottom">
-    <nav class="nav nav-underline justify-content-between">
-            <div class="pe-1 light-link"><a href="{% url 'flux' %}" class="nav-link px-2 link-dark">Flux</a></div>
-            <div class="light-link"><a href="{% url 'review' %}" class="nav-link px-2 link-dark">Mes Posts</a></div>
-            <div class="px-1 light-link"><a href="{% url 'subscription' %}" class="nav-link px-2 link-dark">Abonnements</a></div>
-            <div class="px-1"><a href="{% url 'logout' %}" class="btn btn-outline-secondary">Se déconnecter</a></div>
-    </nav>
+
+
+<div class="register_container">
+    <h2>Inscription</h2>
+    {% if form.errors %}
+    <div class="error_msg">{{ form.errors }}</div>
+    {% endif %}
+    <form class="form_register" method="post">
+        <p>Username</p>
+        {{form.username}}
+        <p>Password</p>
+        {{form.password1}}
+        <ul>
+            <li>Your password must contain at least 8 characters.</li>
+            <li>Your password can't be a commonly used password.</li>
+            <li>Your password can't be entirely numeric.</li>
+        </ul>
+        <p>Repeat Password</p>
+        {{form.password2}}
+        {% csrf_token %}
+        <br>
+        <div class="container_btn_reg">
+            <a href="/" class="btn_log">Retour</a>
+            <button class="btn_log" type="submit">S'inscrire</button>
+        </div>
+
+    </form>
+
 </div>
-            {% else %}
-            <div class="p-2"><a href="{% url 'login' %}" class="btn btn-outline-secondary me-2">Se connecter</a></div>
-            <div class="p-2"><a href="{% url 'signup' %}" class="btn btn-primary">Créer un compte</a></div>
 
 
-{% endif %}
 </body>
 </html>

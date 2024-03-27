@@ -7,7 +7,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
-from Le_site_supp import settings
+from Le_site import settings
 from litereview import forms
 from litereview.models import UserFollows, Review, Ticket, UserBlock, User
 

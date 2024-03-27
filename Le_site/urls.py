@@ -18,35 +18,12 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
-
-import litereview.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("litereview/", include("litereview.urls")),
-    path("", litereview.views.index_page, name="home"),
-    path(
-        "login/",
-        LoginView.as_view(
-            template_name="litereview/login.html",
-            redirect_authenticated_user=True,
-        ),
-        name="login",
-    ),
-    path("signup/", litereview.views.signup_page, name="signup"),
-    path("logout/", litereview.views.logout_page, name="logout"),
-    path("flux", litereview.views.feed_page, name="flux"),
-    path("post", litereview.views.posts_page, name="post"),
-    path("ticket", litereview.views.ticket_page, name="ticket"),
-    path("review", litereview.views.review_page, name="review"),
-    path("subscription", litereview.views.follower_page, name="subscription"),
-    path("unfollow", litereview.views.unfollow_page, name="unfollow"),
-    path("modify", litereview.views.modify_page, name="modify"),
-    path("block", litereview.views.block_page, name="block"),
-    path("delete_post", litereview.views.delete_post, name="delete_post"),
-    path("reply", litereview.views.reply_page, name="replyticket"),
+    path("", include("litereview.urls")),
+
 ]
 
 
