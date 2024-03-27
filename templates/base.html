@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>LITReview</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+<div class="nav-scroller py-1 mb-3 border-bottom">
+    <nav class="nav nav-underline justify-content-between">
+            <div class="pe-1 light-link"><a href="{% url 'flux' %}" class="nav-link px-2 link-dark">Flux</a></div>
+            <div class="light-link"><a href="{% url 'review' %}" class="nav-link px-2 link-dark">Mes Posts</a></div>
+            <div class="px-1 light-link"><a href="{% url 'subscription' %}" class="nav-link px-2 link-dark">Abonnements</a></div>
+            <div class="px-1"><a href="{% url 'logout' %}" class="btn btn-outline-secondary">Se déconnecter</a></div>
+    </nav>
+</div>
+            {% else %}
+            <div class="p-2"><a href="{% url 'login' %}" class="btn btn-outline-secondary me-2">Se connecter</a></div>
+            <div class="p-2"><a href="{% url 'signup' %}" class="btn btn-primary">Créer un compte</a></div>
+
+
+{% endif %}
+</body>
+</html>
