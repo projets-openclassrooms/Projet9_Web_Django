@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{%load static%}
+
+<link rel="stylesheet" href="{% static 'litereview/styles.css' %}"/>
+
+{% block content %}
+<div class="container_abonnement">
+    <h2>Suivre quelqu'un</h2>
+    {% if message %}
+    {{message}}
+    {% endif %}
+    <form method="post" class="form_abonnement">
+        <p>Username :</p>
+        {{form.username}}
+        {% csrf_token %}
+
+        <button class="btn_log" type="submit">Follow</button>
+    </form>
+    <div class="container_follows">
+        <div class="container_follow">
+            <h2>Vos Abonnements</h2>
+            {% if followed_users %}
+            {% for followed in followed_users %}
+            <div class="container_user_follow followed">
+                <p>{{ followed.followed_user }}</p>
+                <div class="cont_block_btn">
+                    <form method="post" action="/unfollow">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{followed.followed_user}}">
+                        <button class="option_abo" type="submit">Ne plus suivre</button>
+                    </form>
+                    <form method="post" action="/block">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{followed.followed_user}}">
+                        <button class="option_abo" type="submit">Bloquer</button>
+                    </form>
+                </div>
+            </div>
+
+            {% endfor %}
+            {% else %}
+            <p>Vous ne suivez personne</p>
+            {% endif %}
+        </div>
+        <div class="container_follow">
+            <h2>Les personnes qui vous suivent</h2>
+            {% if followers %}
+            {% for follower in followers %}
+            <div class="container_user_follow follower">
+                <p>{{ follower.user }}</p>
+                <form method="post" action="/block">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{ follower.user }}">
+                    <button class="option_abo" type="submit">Bloquer</button>
+                </form>
+            </div>
+
+            {% endfor %}
+            {% else %}
+            <p>Vous n'êtes pas suvis</p>
+            {% endif %}
+        </div>
+        <div class="container_follow">
+            <h2>Les personnes que vous avez bloquer</h2>
+            {% if blocked %}
+            {% for block in blocked %}
+            <div class="container_user_follow follower">
+                <p>{{ block.blocked_user }}</p>
+                <form method="post" action="/block">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{block.blocked_user}}">
+                    <button class="option_abo" type="submit">Débloquer</button>
+                </form>
+            </div>
+
+            {% endfor %}
+            {% else %}
+            <p>Vous n'avez bloquer personne</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

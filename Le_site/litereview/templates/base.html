@@ -1,0 +1,23 @@
+{%load static%}
+
+<html>
+<head>
+    <title>LITReview</title>
+    <link rel="stylesheet" href="{% static 'css/litereview/styles.css' %}"/>
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+<div class="header">
+    <div class="side_header"></div>
+    <p class="header_title">LITReview</p>
+    <div class="nav side_header">
+        <a class="a_nav" href="/flux">Flux</a>
+        <a class="a_nav" href="/post">Posts</a>
+        <a class="a_nav" href="/subscription">Abonnements</a>
+        <a class="a_nav" href="/logout">logout</a>
+    </div>
+
+</div>
+{% block content %}{% endblock %}
+</body>
+</html>

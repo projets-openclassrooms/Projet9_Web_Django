@@ -1,0 +1,21 @@
+{% extends 'litereview/base.html' %}
+{%load static%}
+
+<link rel="stylesheet" href="{% static 'litereview/styles.css' %}"/>
+
+{% block content %}
+<div class="container_ticket">
+    <h2>Crée un ticket</h2>
+    <form method="post" class="form_ticket" enctype="multipart/form-data">
+        <p>Title :</p>
+        {{ form.title }}
+        <p>Description :</p>
+        {{ form.description }}
+        <p>Image :</p>
+        {{ form.image }}
+        {% csrf_token %}
+        <br>
+        <button class="btn_log" type="submit">Crée le ticket</button>
+    </form>
+</div>
+{% endblock %}
