@@ -3,3 +3,4 @@
 .env
 *.zip
 __pycache__/
+db_save.sqlite3
