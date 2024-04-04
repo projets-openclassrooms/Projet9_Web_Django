@@ -14,9 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('litereview', include('litereview.urls'))
 """
+# render(request, "litereview/flux.html", context=context)
 
-from django.urls import path
 from django.contrib.auth.views import LoginView
+from django.urls import path
+from django.views.generic import RedirectView
 
 import litereview.views
 
@@ -32,8 +34,11 @@ urlpatterns = [
         ),
         name="login",
     ),
+    # path("registered", litereview.views.home_page, name="registered"),
     path("logout/", litereview.views.logout_page, name="logout"),
+
     path("flux", litereview.views.feed_page, name="flux"),
+
     path("post", litereview.views.posts_page, name="post"),
     path("ticket", litereview.views.ticket_page, name="ticket"),
     path("review", litereview.views.review_page, name="review"),
@@ -42,5 +47,9 @@ urlpatterns = [
     path("modify", litereview.views.modify_page, name="modify"),
     path("block", litereview.views.block_page, name="block"),
     path("delete_post", litereview.views.delete_post, name="delete_post"),
-    path("reply", litereview.views.reply_page, name="replyticket"),
+    path("reply/", litereview.views.reply_page, name="replyticket"),
+]
+
+urlpatterns += [
+    path('', RedirectView.as_view(url='login/', permanent=True)),
 ]

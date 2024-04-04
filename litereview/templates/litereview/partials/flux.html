@@ -18,7 +18,8 @@
         <h2>Flux</h2>
         <div class="container_post">
             {%if posts%}
-                {% for post in posts %}
+
+            {% for post in posts %}
                     {% if post.content_type == "REVIEW" %}
                         <div class="container_review">
                             <div class="header_review">

@@ -1,9 +1,9 @@
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from litereview import models
 from litereview.models import Ticket, Review
-from django import forms
 
 
 class SignUpForm(UserCreationForm):
@@ -16,7 +16,12 @@ class SignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ["username", "email"]
+        fields = ("username",)
+        help_texts = {"username": None, }
+        widgets = {"username": forms.TextInput(
+            attrs={"placeholder": "Nom d'utilisateur"}
+        ), }
+        labels = {"username": "", }
 
 
 class LogInForm(forms.Form):

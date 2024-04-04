@@ -1,9 +1,7 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.db import models
-
 # Create your models here.
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.conf import settings
 from django.db import models
 
 
@@ -12,7 +10,7 @@ class User(AbstractUser):
 
     username = models.CharField(max_length=15, unique=True)
 
-    email = models.EmailField(unique=True)
+    # email = models.EmailField(unique=True)
 
     follows = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
@@ -20,6 +18,9 @@ class User(AbstractUser):
         related_name="followed_user",
         verbose_name="Abonnements",
     )
+
+    def __str__(self):
+        return self.username
 
 
 class Ticket(models.Model):
@@ -30,9 +31,12 @@ class Ticket(models.Model):
 
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to="tickets")
 
     time_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 
 class Review(models.Model):

@@ -44,12 +44,25 @@ def index_page(request):
 def signup_page(request):
     form = forms.SignUpForm()
     if request.method == "POST":
+        # traitement du formulaire
         form = forms.SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
     return render(request, "litereview/signup.html", context={"form": form})
+
+
+@login_required
+def home_page(request):
+    # Récupérer les informations de l'utilisateur
+    user = request.user
+
+    context = {
+        "user": user,
+
+    }
+    return render(request, 'litereview/home.html', context)
 
 
 def logout_page(request):
@@ -122,14 +135,14 @@ def feed_page(request):
             # only allows to delete own reviews
             if delete_review.user == request.user:
                 delete_review.delete()
-            return redirect("feed")
+            return redirect("flux")
 
         if post_action == "delete-ticket":
             delete_ticket = Ticket.objects.get(id=post_id)
             # only allows to delete own ticket
             if delete_ticket.user == request.user:
                 delete_ticket.delete()
-            return redirect("feed")
+            return redirect("flux")
 
         if post_action == "update-review":
             review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
@@ -137,7 +150,6 @@ def feed_page(request):
 
         if post_action == "update-ticket":
             return redirect("/create-ticket/" + post_id)
-
     context = {
         "tickets_with_reviews": tickets_with_reviews,
         "form": form,
@@ -236,7 +248,7 @@ def posts_page(request):
         "form": form,
         "user_id": request.user.id,
     }
-    return render(request, "litereview/post.html", context=context)
+    return render(request, "litereview/posts.html", context=context)
 
 
 @login_required
@@ -267,7 +279,7 @@ def follower_page(request):
                     "followers": followers,
                     "display_error": display_error,
                 }
-                return render(request, "litereview/follower.html", context=context)
+                return render(request, "litereview/abonnement.html", context=context)
 
             follow_form.followed_user = followed_user_target
             if any([follow_form.is_valid()]):
@@ -296,7 +308,7 @@ def follower_page(request):
         "followers": followers,
         "display_error": display_error,
     }
-    return render(request, "litereview/follower.html", context=context)
+    return render(request, "litereview/abonnement.html", context=context)
 
 
 @login_required
@@ -356,7 +368,7 @@ def review_page(request, ticket_id):
             return redirect("feed")
 
     context = {"ticket": ticket_info, "review_form": form}
-    return render(request, "litereview/create-review.html", context=context)
+    return render(request, "litereview/partials/create-review.html", context=context)
 
 
 @login_required
@@ -377,7 +389,7 @@ def review_page_update(request, ticket_id, review_id):
             return redirect("feed")
 
     context = {"ticket": ticket_info, "review_form": form}
-    return render(request, "litereview/create-review.html", context=context)
+    return render(request, "litereview/partials/create-review.html", context=context)
 
 
 @login_required
@@ -400,7 +412,7 @@ def tickets_reviews_page(request):
             return redirect("feed")
 
     context = {"ticket_form": ticket_form, "review_form": review_form}
-    return render(request, "litereview/tickets-reviews.html", context=context)
+    return render(request, "litereview/partials/tickets-reviews.html", context=context)
 
 
 @login_required
@@ -495,7 +507,7 @@ def modify_ticket(request, ticket_id):
     else:
         ticket_form = forms.TicketForm(instance=ticket)
 
-    return render(request, "litereview/modify.html", {"ticket": ticket, "ticket_form": ticket_form})
+    return render(request, "litereview/partials/modify.html", {"ticket": ticket, "ticket_form": ticket_form})
 
 
 def modify_review(request, review_id):
@@ -511,7 +523,7 @@ def modify_review(request, review_id):
     else:
         review_form = forms.ReviewForm(instance=review)
 
-    return render(request, "litereview/modify.html", {"review": review, "review_form": review_form})
+    return render(request, "litereview/partials/modify.html", {"review": review, "review_form": review_form})
 
 
 @login_required

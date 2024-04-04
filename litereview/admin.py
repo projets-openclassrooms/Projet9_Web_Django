@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from litereview.models import User, Ticket, Review, UserFollows, UserBlock
 
 
@@ -30,7 +31,6 @@ class UserBlockAdmin(admin.ModelAdmin):
     list_display = ["blocked_user", "user"]
 
 
-UserBlock
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Ticket, TicketAdmin)

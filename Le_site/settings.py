@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "litereview",
+    "django_bootstrap5",
+    "js_lib_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -128,4 +130,4 @@ LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = LOGIN_URL
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "medias")
+MEDIA_ROOT = os.path.join(BASE_DIR, "medias/")

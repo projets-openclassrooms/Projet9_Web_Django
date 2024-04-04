@@ -1,21 +1,77 @@
 {% extends 'base.html' %}
+{%load static%}
 
-{% block posts %}
 
-<div class="container d-grid gap-3">
-    <div class="row text-center mt-4">
-        <div class="col">
-            <h2>Vos posts</h2>
+{% block content %}
+<div class="container_flux">
+    <h2>Vos posts</h2>
+    <div class="container_posts">
+        {%if posts%}
+        {% for post in posts %}
+        {% if post.content_type == "REVIEW" %}
+        <div class="container_review">
+            <div class="header_review">
+                <p>{{ post.user }} a créé une revue</p>
+                <p>{{ post.time_created }}</p>
+            </div>
+            <h3>{{ post.headline }}</h3>
+            <p>{{ post.body }}</p>
+            <div class="container_stars">
+                {% for _ in "x"|rjust:post.rating %}
+                <i class="fa-solid fa-star"></i>
+                {% endfor %}
+            </div>
+            <div class="ticket_in_review">
+                <p>Ticket - {{post.ticket.user}}</p>
+                <h4>{{post.ticket.title}}</h4>
+                <p>{{post.ticket.description}}</p>
+                {% if post.ticket.image %}
+                <a href="/media/{{ post.ticket.image }}"><img class="img_post"
+                                                              src="/media/{{ post.ticket.image }}"/></a>
+                {% endif %}
+
+            </div>
+            {%if post.user == request.user %}
+            <div class="container_del_mod">
+                <form method="post" action="/deletepost">
+                    {% csrf_token %}
+                    <input type="hidden" name="postid" value="{{ post.id }}">
+                    <input type="hidden" name="types" value="review">
+                    <button type="submit" class="del_btn">Delete</button>
+                </form>
+                <a class="del_btn" href="/modify?type=REVIEW&id={{post.id}}">Modifier</a>
+            </div>
+            {%endif%}
         </div>
+        {% else%}
+        <div class="container_ticket">
+            <div class="header_ticket">
+                <p>{{ post.user }} a créé un ticket</p>
+                <p>{{ post.time_created }}</p>
+            </div>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.description }}</p>
+            {% if post.image %}
+            <a href="/media/{{ post.image }}"><img class="img_post" src="/media/{{ post.image }}"/></a>
+            {% endif %}
+            {%if post.user == request.user %}
+            <div class="container_del_mod">
+                <form method="post" action="/deletepost">
+                    {% csrf_token %}
+                    <input type="hidden" name="postid" value="{{ post.id }}">
+                    <input type="hidden" name="types" value="ticket">
+                    <button type="submit" class="del_btn">Delete</button>
+                </form>
+                <a class="del_btn" href="/modify?type=TICKET&id={{post.id}}">Modifier</a>
+            </div>
+            {%endif%}
+
+        </div>
+        {% endif %}
+        {% endfor %}
+        {%else%}
+        <h2 class="mange_curly">Commencez a suivre des personnes pour voir des revues</h2>
+        {%endif%}
     </div>
-
-    {% for post in posts %}
-    {% if post|model_type == "Ticket" %}
-
-    {% elif post|model_type == "Review" %}
-
-    {% endif %}
-    {% endfor %}
 </div>
-
-{% endblock posts %}
+{% endblock %}

@@ -15,3 +15,73 @@
 </form>
 
 {% endblock register%}
+
+{% extends 'base.html' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Inscription</h1>
+
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        Veuillez corriger les erreurs ci-dessous.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_username">Nom d'utilisateur</label>
+            <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                   id="id_username" name="username" value="{{ form.username.value|default:'' }}"
+                   aria-describedby="usernameHelp" required>
+            {% if form.username.errors %}
+            <div class="invalid-feedback">
+                {{ form.username.errors|join:", " }}
+            </div>
+            {% endif %}
+            <small id="usernameHelp" class="form-text text-muted">
+                Votre nom d'utilisateur doit être unique et ne peut pas dépasser 15 caractères.
+            </small>
+        </div>
+
+
+        <div class="form-group">
+            <label for="id_password1">Mot de passe</label>
+            <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
+                   id="id_password1" name="password1" aria-describedby="passwordHelp" required>
+            {% if form.password1.errors %}
+            <div class="invalid-feedback">
+                {{ form.password1.errors|join:", " }}
+            </div>
+            {% endif %}
+            <small id="passwordHelp" class="form-text text-muted">
+                Votre mot de passe doit être sécurisé et difficile à deviner.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="id_password2">Confirmation du mot de passe</label>
+            <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
+                   id="id_password2" name="password2" aria-describedby="passwordConfirmHelp" required>
+            {% if form.password2.errors %}
+            <div class="invalid-feedback">
+                {{ form.password2.errors|join:", " }}
+            </div>
+            {% endif %}
+            <small id="passwordConfirmHelp" class="form-text text-muted">
+                Veuillez saisir à nouveau votre mot de passe pour confirmation.
+            </small>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </form>
+</div>
+{% endblock %}
+
+
+
