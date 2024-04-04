@@ -332,7 +332,7 @@ def ticket_page(request):
     if request.method == "POST":
         ticket_form = forms.TicketForm(request.POST, request.FILES)
         if ticket_form.is_valid():
-            user, created = request.user.get_or_create(user=user, ticket=ticket_formt)
+            user, created = request.user.get_or_create(user=user, ticket=ticket_form)
             ticket = ticket_form.save(commit=False)
             ticket.user = user
             ticket.save()
