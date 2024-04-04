@@ -1,20 +1,44 @@
 {% extends 'base.html' %}
-{%load static%}
-
+{% load static %}
 
 {% block content %}
-        <div class="container_ticket">
-            <h2>Créer un ticket de test</h2>
-            <form method="post" class="form_ticket" enctype="multipart/form-data">
-                <p>Titre :</p>
-                {{ ticket_form.title }}
-                <p>Description :</p>
-                {{ ticket_form.description }}
-                <p>Image :</p>
-                {{ ticket_form.image }}
-                {% csrf_token %}
-                <br>
-                <button class="btn_log" type="submit">Créer le ticket</button>
-            </form>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-white text-primary border-primary">
+                    <h2 class="mb-0" style="text-align: center;">Créer un ticket</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="{{ ticket_form.title.id_for_label }}" class="form-label">Titre</label>
+                            {{ ticket_form.title.errors }}
+                            {{ ticket_form.title }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ ticket_form.description.id_for_label }}" class="form-label">
+                                Description
+                            </label>
+                            <p></p>
+                            {{ ticket_form.description.errors }}
+                            {{ ticket_form.description }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ ticket_form.image.id_for_label }}" class="form-label">Image</label>
+                            <p></p>
+                            {{ ticket_form.image.errors }}
+                            {{ ticket_form.image }}
+                        </div>
+                        {% csrf_token %}
+                        <p></p>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Envoyer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
 {% endblock %}
