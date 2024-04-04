@@ -271,7 +271,7 @@ def follower_page(request):
                 followed_user_target = User.objects.get(
                     username=request.POST.get("user_to_follow")
                 )
-            except User.DoesNotExist:
+            except User:
                 display_error = "Nom d'utilisateur invalide"
                 context = {
                     "follow_form": follow_form,
@@ -311,32 +311,33 @@ def follower_page(request):
     return render(request, "litereview/abonnement.html", context=context)
 
 
-# @login_required
-# def ticket_page(request):
-#     ticket_form = forms.TicketForm()
-#
-#     if request.method == "POST":
-#         ticket_form = forms.TicketForm(request.POST, request.FILES)
-#         if any([ticket_form.is_valid()]):
-#             ticket = ticket_form.save(commit=False)
-#             ticket.user = request.user
-#             ticket.save()
-#             return redirect("feed")
-#
-#     context = {"ticket_form": ticket_form}
-#     return render(request, "litereview/ticket.html", context=context)
 @login_required
 def ticket_page(request):
     ticket_form = forms.TicketForm()
 
     if request.method == "POST":
         ticket_form = forms.TicketForm(request.POST, request.FILES)
-        if ticket_form.is_valid():
-            user, created = request.user.get_or_create(user=user, ticket=ticket_form)
+        print(request.FILES)
+        if any([ticket_form.is_valid()]):
             ticket = ticket_form.save(commit=False)
-            ticket.user = user
+            ticket.user = request.user
             ticket.save()
             return redirect("feed")
+
+    context = {"ticket_form": ticket_form}
+    return render(request, "litereview/ticket.html", context=context)
+    # @login_required
+    # def ticket_page(request):
+    #     ticket_form = forms.TicketForm()
+    #
+    #     if request.method == "POST":
+    #         ticket_form = forms.TicketForm(request.POST, request.FILES)
+    #         if ticket_form.is_valid():
+    #             user, created = request.user.get_or_create(user=user, ticket=ticket_form)
+    #             ticket = ticket_form.save(commit=False)
+    #             ticket.user = user
+    #             ticket.save()
+    #             return redirect("feed")
 
     context = {"ticket_form": ticket_form}
     return render(request, "litereview/ticket.html", context=context)
