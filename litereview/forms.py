@@ -31,7 +31,7 @@ class LogInForm(forms.Form):
     )
 
 
-class TicketForm(forms.Form):
+class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ["title", "description", "image"]
@@ -45,8 +45,6 @@ class TicketForm(forms.Form):
             "image": forms.FileInput(attrs={"class": "form-file"}),
         }
 
-    def save(self, commit):
-        pass
 
 
 class DeleteTicketForm(forms.Form):

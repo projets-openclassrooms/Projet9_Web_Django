@@ -322,7 +322,7 @@ def ticket_page(request):
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect("feed")
+            return redirect("flux")
 
     context = {"ticket_form": ticket_form}
     return render(request, "litereview/ticket.html", context=context)
