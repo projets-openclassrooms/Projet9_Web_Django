@@ -318,7 +318,7 @@ def ticket_page(request):
     if request.method == "POST":
         ticket_form = forms.TicketForm(request.POST, request.FILES)
         print(request.FILES)
-        if any([ticket_form.is_valid()]):
+        if ticket_form.is_valid():
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
             ticket.save()
