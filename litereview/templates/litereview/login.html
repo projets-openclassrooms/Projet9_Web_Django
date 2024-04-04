@@ -9,7 +9,7 @@
                     <a href="{% url 'signup' %}" class="btn btn-primary btn-lg w-100" aria-label="inscription">S'inscrire</a>
                 </div>
             </div>
-    </div>
+        </div>
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -17,10 +17,9 @@
                     <form method="post">
             {% csrf_token %}
                         <div class="mb-3">
-                            <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label
-                                }}</label>
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Nom d'utilisateur</label>
                             {{ form.username }}
-            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label
                                 }}</label>

@@ -311,21 +311,35 @@ def follower_page(request):
     return render(request, "litereview/abonnement.html", context=context)
 
 
+# @login_required
+# def ticket_page(request):
+#     ticket_form = forms.TicketForm()
+#
+#     if request.method == "POST":
+#         ticket_form = forms.TicketForm(request.POST, request.FILES)
+#         if any([ticket_form.is_valid()]):
+#             ticket = ticket_form.save(commit=False)
+#             ticket.user = request.user
+#             ticket.save()
+#             return redirect("feed")
+#
+#     context = {"ticket_form": ticket_form}
+#     return render(request, "litereview/ticket.html", context=context)
 @login_required
 def ticket_page(request):
     ticket_form = forms.TicketForm()
 
     if request.method == "POST":
         ticket_form = forms.TicketForm(request.POST, request.FILES)
-        if any([ticket_form.is_valid()]):
+        if ticket_form.is_valid():
+            user, created = request.user.get_or_create(user=user, ticket=ticket_formt)
             ticket = ticket_form.save(commit=False)
-            ticket.user = request.user
+            ticket.user = user
             ticket.save()
             return redirect("feed")
 
     context = {"ticket_form": ticket_form}
     return render(request, "litereview/ticket.html", context=context)
-
 
 @login_required
 def ticket_page_update(request, ticket_id):

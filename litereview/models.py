@@ -25,6 +25,7 @@ class User(AbstractUser):
 
 class Ticket(models.Model):
     # tickets crees
+    objects = None
     title = models.CharField(max_length=128, verbose_name="Titre")
 
     description = models.TextField(max_length=2048, blank=True)
@@ -40,6 +41,7 @@ class Ticket(models.Model):
 
 
 class Review(models.Model):
+    objects = None
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
         # validates that rating must be between 0 and 5
@@ -54,6 +56,7 @@ class Review(models.Model):
 
 class UserFollows(models.Model):
     # Your UserFollows model definition goes here
+    objects = None
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following"
     )
