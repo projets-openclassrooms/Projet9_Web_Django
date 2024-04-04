@@ -45,6 +45,9 @@ class TicketForm(forms.Form):
             "image": forms.FileInput(attrs={"class": "form-file"}),
         }
 
+    def save(self, commit):
+        pass
+
 
 class DeleteTicketForm(forms.Form):
     ticket_id = forms.IntegerField(widget=forms.HiddenInput())
