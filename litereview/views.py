@@ -270,7 +270,7 @@ def posts_page(request):
         if post_action == "update-ticket":
             return redirect("/create-ticket/" + post_id)
 
-    print(form)
+    print()
 
     context = {
         "tickets_with_reviews": tickets_with_reviews,
