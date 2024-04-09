@@ -41,10 +41,11 @@ urlpatterns = [
 
     path("post", litereview.views.posts_page, name="post"),
     path("ticket", litereview.views.ticket_page, name="ticket"),
-    path("review/<int:ticket_id>/", litereview.views.review_page, name="review"),
+    path("review/", litereview.views.review_page, name="review"),
     path("subscription", litereview.views.follower_page, name="subscription"),
     path("unfollow/", litereview.views.unfollow_page, name="unfollow"),
     path("modify", litereview.views.modify_page, name="modify"),
+    path("modify/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"),
     path("block", litereview.views.block_page, name="block"),
     path("delete_post", litereview.views.delete_post, name="delete_post"),
     path("reply/", litereview.views.reply_page, name="replyticket"),

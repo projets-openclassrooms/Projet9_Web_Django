@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "litereview",
+    "bootstrap5",
     "django_bootstrap5",
     "js_lib_bootstrap5",
 ]

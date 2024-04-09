@@ -22,7 +22,7 @@
             <p>Contenue de la revue : </p>
             {{ review_form.body }}
             <p>Notes (0-5)</p>
-            <input type="hidden" name="ticketid" value="{{ request.GET.ticketid }}">
+            <input type="hidden" name="ticket_id" value="{{ request.GET.ticket_id }}">
             <div class="container_radio">
                 {% for radio in review_form.rating %}
                     {{ radio }}

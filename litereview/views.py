@@ -364,26 +364,50 @@ def ticket_page_update(request, ticket_id):
 
 
 @login_required
-def review_page(request, ticket_id):
-    ticket = Ticket.objects.filter(id=ticket_id)[0]
-    ticket_info = {}
-    for field in ticket._meta.get_fields():
-        excluded_field = ["id", "ticket", "review"]
-        if hasattr(ticket, field.name) and field.name not in excluded_field:
-            ticket_info[field.name] = getattr(ticket, field.name)
-    form = forms.ReviewForm()
-
+def review_page(request):
+    # ticket = Ticket.objects.filter(id=ticket_id)[0]
+    # ticket_info = {}
+    # for field in ticket._meta.get_fields():
+    #     excluded_field = ["id", "ticket", "review"]
+    #     if hasattr(ticket, field.name) and field.name not in excluded_field:
+    #         ticket_info[field.name] = getattr(ticket, field.name)
+    # form = forms.ReviewForm()
+    #
+    # if request.method == "POST":
+    #     review_form = forms.ReviewForm(request.POST)
+    #     if review_form.is_valid():
+    #         review = review_form.save(commit=False)
+    #         review.user = request.user
+    #         review.ticket = ticket
+    #         review.save()
+    #         return redirect("post")
+    #
+    # context = {"ticket": ticket_info, "review_form": form}
+    # return render(request, "litereview/partials/create-review.html", context=context)
+    ticket_form = forms.TicketForm()
+    review_form = forms.ReviewForm()
     if request.method == "POST":
+        ticket_form = forms.TicketForm(request.POST, request.FILES)
         review_form = forms.ReviewForm(request.POST)
-        if any([review_form.is_valid()]):
-            review = review_form.save(commit=False)
+        if all([ticket_form.is_valid(), review_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            review = review_form.save()
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect("feed")
+            return redirect("post")
+    context = {
+        "ticket_form": ticket_form,
+        "review_form": review_form,
+    }
 
-    context = {"ticket": ticket_info, "review_form": form}
-    return render(request, "litereview/partials/create-review.html", context=context)
+    return render(
+        request, "litereview/replyticket.html", context=context,
+    )
+
+
 
 
 @login_required
@@ -511,16 +535,16 @@ def modify_page(request):
 
 def modify_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    if request.user != ticket.user:
-        return redirect("flux")
-
-    if request.method == "POST":
-        ticket_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
-        if ticket_form.is_valid():
-            ticket_form.save()
-            return redirect("flux")
-    else:
-        ticket_form = forms.TicketForm(instance=ticket)
+    # if request.user != ticket.user:
+    #     return redirect("flux")
+    #
+    # if request.method == "POST":
+    #     ticket_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
+    #     if ticket_form.is_valid():
+    #         ticket_form.save()
+    #         return redirect("flux")
+    # else:
+    #     ticket_form = forms.TicketForm(instance=ticket)
 
     return render(request, "litereview/partials/modify.html", {"ticket": ticket, "ticket_form": ticket_form})
 
@@ -545,13 +569,13 @@ def modify_review(request, review_id):
 def reply_page(request):
     if request.method == "POST":
         return process_post_request(request)
-    elif request.method == "GET" and "ticketid" in request.GET:
+    elif request.method == "GET" and "ticket_id" in request.GET:
         return process_get_request(request)
     return redirect("flux")
 
 
 def process_post_request(request):
-    ticket_id = request.POST.get("ticketid")
+    ticket_id = request.POST.get("ticket_id")
     ticket = get_object_or_404(Ticket, id=ticket_id)
     review_form = forms.ReviewForm(request.POST)
     if review_form.is_valid():
@@ -563,7 +587,7 @@ def process_post_request(request):
 
 
 def process_get_request(request):
-    ticket_id = request.GET.get("ticketid")
+    ticket_id = request.GET.get("ticket_id")
     ticket = get_object_or_404(Ticket, id=ticket_id)
     review_form = forms.ReviewForm()
     return render(

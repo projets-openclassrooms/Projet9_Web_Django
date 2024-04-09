@@ -1,27 +1,32 @@
-{% extends 'litereview/base.html' %}
+{% extends 'base.html' %}
 {%load static%}
 
 
 {% block content %}
 <div class="container_reply">
-    <h2>Crée une Revue</h2>
+    <h2>Créer une critique</h2>
     <div class="container_rep_tic">
         <div class="rep_tick">
-            <p>en reponse a :</p>
-            <p>{{ticket.user}}</p>
+            {% if post %}
+            <p>Vous êtes en train de poster en réponse à :</p>
+            <p>{{ticket.user}} a demandé une critique</p>
+            <p>{{ticket.time_created}}</p>
             <h4>{{ticket.title}}</h4>
             <p>{{ticket.description}}</p>
             {%if ticket.image%}
-            <img class="img_ticket" src="/media/{{ticket.image}}" />
-            {%endif%}
+            <img class="img_ticket" src="/medias/{{ticket.image}}"/>
+            {% endif %}
+            {% else %}
+            {{ ticket_form.as_p }}
+            {% endif %}
         </div>
         <form method="post" class="rev_form" enctype="multipart/form-data">
             <p>Titre de la revue : </p>
             {{review_form.headline}}
-            <p>Contenue de la revue : </p>
+            <p>Contenu de la revue : </p>
             {{ review_form.body }}
             <p>Notes (0-5)</p>
-            <input type="hidden" name="ticketid" value="{{ request.GET.ticketid }}">
+            <input type="hidden" name="ticket_id" value="{{ request.GET.ticket_id }}">
             <div class="container_radio">
                 {% for radio in review_form.rating %}
                     {{ radio }}
