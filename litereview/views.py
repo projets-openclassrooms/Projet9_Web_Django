@@ -368,8 +368,6 @@ def ticket_page(request):
     #             ticket.save()
     #             return redirect("feed")
 
-    context = {"ticket_form": ticket_form}
-    return render(request, "litereview/ticket.html", context=context)
 
 
 @login_required
