@@ -4,7 +4,9 @@ import os
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template import loader
 from django.views.decorators.http import require_POST
 
 from Le_site import settings
@@ -68,6 +70,33 @@ def home_page(request):
 def logout_page(request):
     logout(request)
     return redirect("login")
+
+
+def testing(request):
+    mydata = User.objects.all().values()
+    template = loader.get_template("template.html")
+    context = {
+        'utilisateurs': mydata,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def delete_review(request, review_id):
+    mydata = User.objects.all().values()
+    template = loader.get_template("template.html")
+    context = {
+        'utilisateurs': mydata,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def update_review(request, review_id):
+    mydata = User.objects.all().values()
+    template = loader.get_template("template.html")
+    context = {
+        'utilisateurs': mydata,
+    }
+    return HttpResponse(template.render(context, request))
 
 
 @login_required
@@ -216,7 +245,6 @@ def posts_page(request):
         # post_id is ALWAYS the ticket id
         post_id = post_value.split("_")[1]
         post_action = post_value.split("_")[0]
-
         # checks the value sent by the post request
         if post_action == "create-review":
             return redirect("/create-review/" + post_id)
@@ -226,14 +254,14 @@ def posts_page(request):
             # only allows to delete own reviews
             if delete_review.user == request.user:
                 delete_review.delete()
-            return redirect("posts")
+            return redirect("post")
 
         if post_action == "delete-ticket":
             delete_ticket = Ticket.objects.get(id=post_id)
             # only allows to delete own ticket
             if delete_ticket.user == request.user:
                 delete_ticket.delete()
-            return redirect("posts")
+            return redirect("post")
 
         if post_action == "update-review":
             review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
@@ -242,7 +270,8 @@ def posts_page(request):
         if post_action == "update-ticket":
             return redirect("/create-ticket/" + post_id)
 
-    print(tickets_with_reviews)
+    print(form)
+
     context = {
         "tickets_with_reviews": tickets_with_reviews,
         "form": form,
@@ -342,6 +371,7 @@ def ticket_page(request):
     context = {"ticket_form": ticket_form}
     return render(request, "litereview/ticket.html", context=context)
 
+
 @login_required
 def ticket_page_update(request, ticket_id):
     ticket_to_update = Ticket.objects.get(id=ticket_id)
@@ -406,8 +436,6 @@ def review_page(request):
     return render(
         request, "litereview/replyticket.html", context=context,
     )
-
-
 
 
 @login_required

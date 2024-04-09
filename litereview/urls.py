@@ -38,6 +38,7 @@ urlpatterns = [
     path("logout/", litereview.views.logout_page, name="logout"),
 
     path("flux", litereview.views.feed_page, name="flux"),
+    path("testing", litereview.views.testing, name="testing"),
 
     path("post", litereview.views.posts_page, name="post"),
     path("ticket", litereview.views.ticket_page, name="ticket"),
@@ -46,6 +47,9 @@ urlpatterns = [
     path("unfollow/", litereview.views.unfollow_page, name="unfollow"),
     path("modify", litereview.views.modify_page, name="modify"),
     path("modify/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"),
+    path("update-review/<int:ticket_id>", litereview.views.update_review, name="update-review"),
+    path("delete-review/<int:ticket_id>", litereview.views.delete_review, name="delete-review"),
+
     path("block", litereview.views.block_page, name="block"),
     path("delete_post", litereview.views.delete_post, name="delete_post"),
     path("reply/", litereview.views.reply_page, name="replyticket"),

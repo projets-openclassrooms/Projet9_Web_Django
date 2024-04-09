@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container my-5">
     <h2 class="text-center mb-4">Vos posts</h2>
-    {% if posts %}
+    {% if post %}
         {% for post in posts %}
     {% if post.content_type == "REVIEW" %}
     <div class="card mb-4">
@@ -28,8 +28,8 @@
                     <h4 class="card-title">{{ post.ticket.title }}</h4>
                     <p class="card-text">{{ post.ticket.description }}</p>
                     {% if post.ticket.image %}
-                    <a href="/media/{{ post.ticket.image }}">
-                        <img class="img-fluid" src="/media/{{ post.ticket.image }}" alt="Image du ticket">
+                    <a href="/medias/{{ post.ticket.image }}">
+                        <img class="img-fluid" src="/medias/{{ post.ticket.image }}" alt="Image du ticket">
                     </a>
                     {% endif %}
                 </div>
@@ -57,8 +57,8 @@
             <h3 class="card-title">{{ post.title }}</h3>
             <p class="card-text">{{ post.description }}</p>
             {% if post.image %}
-            <a href="/media/{{ post.image }}">
-                <img class="img-fluid" src="/media/{{ post.image }}" alt="Image du ticket">
+            <a href="/medias/{{ post.image }}">
+                <img class="img-fluid" src="/medias/{{ post.image }}" alt="Image du ticket">
             </a>
             {% endif %}
             {% if post.user == request.user %}
