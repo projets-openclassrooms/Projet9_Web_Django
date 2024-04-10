@@ -551,16 +551,16 @@ def modify_page(request):
 
 def modify_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    # if request.user != ticket.user:
-    #     return redirect("flux")
-    #
-    # if request.method == "POST":
-    #     ticket_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
-    #     if ticket_form.is_valid():
-    #         ticket_form.save()
-    #         return redirect("flux")
-    # else:
-    #     ticket_form = forms.TicketForm(instance=ticket)
+    if request.user != ticket.user:
+        return redirect("flux")
+
+    if request.method == "POST":
+        ticket_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
+        if ticket_form.is_valid():
+            ticket_form.save()
+            return redirect("flux")
+    else:
+        ticket_form = forms.TicketForm(instance=ticket)
 
     return render(request, "litereview/partials/modify.html", {"ticket": ticket, "ticket_form": ticket_form})
 
