@@ -72,15 +72,6 @@ def logout_page(request):
     return redirect("login")
 
 
-def testing(request):
-    mydata = User.objects.all().values()
-    template = loader.get_template("template.html")
-    context = {
-        'utilisateurs': mydata,
-    }
-    return HttpResponse(template.render(context, request))
-
-
 def delete_review(request, review_id):
     mydata = User.objects.all().values()
     template = loader.get_template("template.html")
@@ -369,7 +360,6 @@ def ticket_page(request):
     #             return redirect("feed")
 
 
-
 @login_required
 def ticket_page_update(request, ticket_id):
     ticket_to_update = Ticket.objects.get(id=ticket_id)
@@ -425,7 +415,7 @@ def review_page(request):
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect("post")
+            return redirect("posts")
     context = {
         "ticket_form": ticket_form,
         "review_form": review_form,

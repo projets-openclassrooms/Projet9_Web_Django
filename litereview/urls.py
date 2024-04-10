@@ -22,6 +22,8 @@ from django.views.generic import RedirectView
 
 import litereview.views
 
+# import litereview.tests
+
 urlpatterns = [
     # path("", litereview.views.index_page, name="login"),
     path("index/", litereview.views.index_page, name="home"),
@@ -38,9 +40,9 @@ urlpatterns = [
     path("logout/", litereview.views.logout_page, name="logout"),
 
     path("flux", litereview.views.feed_page, name="flux"),
-    path("testing", litereview.views.testing, name="testing"),
+    # path("testing", litereview.tests.test_testing, name="testing"),
 
-    path("post", litereview.views.posts_page, name="post"),
+    path("posts", litereview.views.posts_page, name="posts"),
     path("ticket", litereview.views.ticket_page, name="ticket"),
     path("review/", litereview.views.review_page, name="review"),
     path("subscription", litereview.views.follower_page, name="subscription"),

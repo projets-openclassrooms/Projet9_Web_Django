@@ -1,38 +1,38 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
 <div class="container py-4">
-    <h2 class="mb-4">Suivre quelqu'un</h2>
-    {% if message %}
-    <div class="alert alert-info" role="alert">{{ message }}</div>
+    <h2 class="mb-4">Suivre des utilisateurs</h2>
+    {% if display_error %}
+    <div class="alert alert-danger" role="alert">{{ display_error }}</div>
     {% endif %}
     <form method="post" class="mb-4">
         <div class="mb-3">
-            <label for="{{ form.username.id_for_label }}" class="form-label">Nom :</label>
-            {{ form.username }}
+            <label for="{{ follow_form.username.id_for_label }}" class="form-label">Nom :</label>
+            {{ follow_form.username }}
         </div>
         {% csrf_token %}
+        <input type="hidden" name="post_value" value="follow">
         <button class="btn btn-primary" type="submit">Suivre</button>
     </form>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h3 class="mb-3">Vos Abonnements</h3>
-            {% if followed_users %}
-            {% for followed in followed_users %}
+            {% if followed_user %}
+            {% for follow in followed_user %}
             <div class="card mb-3">
                 <div class="card-body">
-                    <p class="card-text">{{ followed.followed_user }}</p>
+                    <p class="card-text">{{ follow.followed_user }}</p>
                     <div class="d-flex justify-content-between">
                         <form method="post" action="/unfollow" class="me-2">
                             {% csrf_token %}
-                            <input type="hidden" name="username" value="{{ followed.followed_user }}">
+                            <input type="hidden" name="post_value" value="{{ follow.followed_user }}">
                             <button class="btn btn-outline-danger" type="submit">Ne plus suivre</button>
                         </form>
                         <form method="post" action="/block">
                             {% csrf_token %}
-                            <input type="hidden" name="username" value="{{ followed.followed_user }}">
+                            <input type="hidden" name="username" value="{{ follow.followed_user }}">
                             <button class="btn btn-outline-warning" type="submit">Bloquer</button>
                         </form>
                     </div>
@@ -43,7 +43,7 @@
             <p>Vous ne suivez personne</p>
             {% endif %}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h3 class="mb-3">Les personnes qui vous suivent</h3>
             {% if followers %}
             {% for follower in followers %}
@@ -60,25 +60,6 @@
             {% endfor %}
             {% else %}
             <p>Vous n'êtes pas suivis</p>
-            {% endif %}
-        </div>
-        <div class="col-md-4">
-            <h3 class="mb-3">Les personnes que vous avez bloqué</h3>
-            {% if blocked %}
-            {% for block in blocked %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <p class="card-text">{{ block.blocked_user }}</p>
-                    <form method="post" action="/block">
-                        {% csrf_token %}
-                        <input type="hidden" name="username" value="{{ block.blocked_user }}">
-                        <button class="btn btn-outline-success" type="submit">Débloquer</button>
-                    </form>
-                </div>
-            </div>
-            {% endfor %}
-            {% else %}
-            <p>Vous n'avez bloqué personne</p>
             {% endif %}
         </div>
     </div>

@@ -2,25 +2,24 @@
 {% load static %}
 
 {% block content %}
-<div class="container my-5">
-    <h2 class="text-center mb-4">Vos posts</h2>
-    {% if post %}
-        {% for post in posts %}
-    {% if post.content_type == "REVIEW" %}
+<div class="container py-4">
+    <h2 class="mb-4">Vos posts</h2>
+    {% for post in tickets_with_reviews %}
     <div class="card mb-4">
+        {% if post.review %}
         <div class="card-header">
-            <p class="mb-0">{{ post.user }} a créé une revue</p>
-            <small class="text-muted">{{ post.time_created }}</small>
+            <p class="mb-0">{{ post.review.user }} a créé une revue</p>
+            <p class="mb-0">{{ post.review.time_created }}</p>
         </div>
         <div class="card-body">
-            <h3 class="card-title">{{ post.headline }}</h3>
-            <p class="card-text">{{ post.body }}</p>
-            <div class="mb-3">
-                {% for _ in "x"|rjust:post.rating %}
+            <h3 class="card-title">{{ post.review.headline }}</h3>
+            <p class="card-text">{{ post.review.body }}</p>
+            <div class="d-flex justify-content-start align-items-center mb-3">
+                {% for _ in "x"|rjust:post.review.rating %}
                 <i class="fas fa-star text-warning"></i>
                 {% endfor %}
             </div>
-            <div class="card mb-3">
+            <div class="card bg-light mb-3">
                 <div class="card-header">
                     <p class="mb-0">Ticket - {{ post.ticket.user }}</p>
                 </div>
@@ -28,56 +27,57 @@
                     <h4 class="card-title">{{ post.ticket.title }}</h4>
                     <p class="card-text">{{ post.ticket.description }}</p>
                     {% if post.ticket.image %}
-                    <a href="/medias/{{ post.ticket.image }}">
-                        <img class="img-fluid" src="/medias/{{ post.ticket.image }}" alt="Image du ticket">
+                    <a href="/media/{{ post.ticket.image }}">
+                        <img class="img-fluid" src="/media/{{ post.ticket.image }}" alt="{{ post.ticket.title }}">
                     </a>
                     {% endif %}
                 </div>
             </div>
-            {% if post.user == request.user %}
+            {% if post.review.user == request.user %}
             <div class="d-flex justify-content-end">
-                <form method="post" action="/deletepost" class="me-2">
+                <form method="post" action="/posts" class="me-2">
                     {% csrf_token %}
-                    <input type="hidden" name="postid" value="{{ post.id }}">
-                    <input type="hidden" name="types" value="review">
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    <input type="hidden" name="post_value" value="delete-review_{{ post.ticket.id }}">
+                    <button class="btn btn-danger btn-sm" type="submit">Supprimer la revue</button>
                 </form>
-                <a href="/modify?type=REVIEW&id={{ post.id }}" class="btn btn-primary">Modifier</a>
+                <form method="post" action="/posts">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_value" value="update-review_{{ post.ticket.id }}">
+                    <button class="btn btn-primary btn-sm" type="submit">Modifier la revue</button>
+                </form>
             </div>
             {% endif %}
         </div>
-    </div>
-    {% else %}
-    <div class="card mb-4">
+        {% else %}
         <div class="card-header">
-            <p class="mb-0">{{ post.user }} a créé un ticket</p>
-            <small class="text-muted">{{ post.time_created }}</small>
+            <p class="mb-0">{{ post.ticket.user }} a créé un ticket</p>
+            <p class="mb-0">{{ post.ticket.time_created }}</p>
         </div>
         <div class="card-body">
-            <h3 class="card-title">{{ post.title }}</h3>
-            <p class="card-text">{{ post.description }}</p>
-            {% if post.image %}
-            <a href="/medias/{{ post.image }}">
-                <img class="img-fluid" src="/medias/{{ post.image }}" alt="Image du ticket">
+            <h3 class="card-title">{{ post.ticket.title }}</h3>
+            <p class="card-text">{{ post.ticket.description }}</p>
+            {% if post.ticket.image %}
+            <a href="/media/{{ post.ticket.image }}">
+                <img class="img-fluid" src="/media/{{ post.ticket.image }}" alt="{{ post.ticket.title }}">
             </a>
             {% endif %}
-            {% if post.user == request.user %}
+            {% if post.ticket.user == request.user %}
             <div class="d-flex justify-content-end">
-                <form method="post" action="/deletepost" class="me-2">
+                <form method="post" action="/posts" class="me-2">
                     {% csrf_token %}
-                    <input type="hidden" name="postid" value="{{ post.id }}">
-                    <input type="hidden" name="types" value="ticket">
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    <input type="hidden" name="post_value" value="delete-ticket_{{ post.ticket.id }}">
+                    <button class="btn btn-danger btn-sm" type="submit">Supprimer le ticket</button>
                 </form>
-                <a href="/modify?type=TICKET&id={{ post.id }}" class="btn btn-primary">Modifier</a>
+                <form method="post" action="/posts">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_value" value="update-ticket_{{ post.ticket.id }}">
+                    <button class="btn btn-primary btn-sm" type="submit">Modifier le ticket</button>
+                </form>
             </div>
             {% endif %}
         </div>
+        {% endif %}
     </div>
-    {% endif %}
-        {% endfor %}
-    {% else %}
-    <p class="text-center">Commencez à suivre des personnes pour voir des revues.</p>
-    {% endif %}
+    {% endfor %}
 </div>
-{% endblock %}
+{% endblock content %}
