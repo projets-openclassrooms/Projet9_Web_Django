@@ -426,6 +426,8 @@ def review_page(request):
         "ticket_form": ticket_form,
         "review_form": review_form,
     }
+    print('review_page')
+    print(context)
     return render(
         request, "litereview/create_review.html", context=context,
     )
