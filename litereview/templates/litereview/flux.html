@@ -3,15 +3,16 @@
 
 {% block content %}
 <div class="container py-5">
+    <h2 class="text-center mb-4">Flux</h2>
+
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
             <div class="d-grid gap-2">
-                <a class="btn btn-primary btn-lg" href="/ticket" role="button">Créer un Ticket</a>
-                <a class="btn btn-primary btn-lg" href="/review" role="button">Créer une Revue</a>
+                <a class="btn btn-primary btn-lg" href="/ticket" role="button">Demander une critique</a>
+                <a class="btn btn-primary btn-lg" href="/review" role="button">Créer une critique</a>
             </div>
         </div>
     </div>
-    <h2 class="text-center mb-4">Flux</h2>
     <div class="row">
         {% if posts %}
         {% for post in posts %}
@@ -71,10 +72,7 @@
         </div>
         {% endif %}
         {% endfor %}
-        {% else %}
-        <div class="col-12">
-            <h2 class="text-center">Commencez à suivre des personnes pour voir des revues</h2>
-        </div>
+
         {% endif %}
     </div>
 </div>
