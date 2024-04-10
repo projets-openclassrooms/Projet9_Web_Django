@@ -175,6 +175,8 @@ def feed_page(request):
         "form": form,
         "user_id": request.user.id,
     }
+    print('flux')
+    print(context)
     return render(request, "litereview/flux.html", context=context)
 
 
@@ -261,7 +263,7 @@ def posts_page(request):
         if post_action == "update-ticket":
             return redirect("/create-ticket/" + post_id)
 
-    print()
+    print('posts_page')
 
     context = {
         "tickets_with_reviews": tickets_with_reviews,
@@ -425,7 +427,7 @@ def review_page(request):
         "review_form": review_form,
     }
     return render(
-        request, "/create_review.html", context=context,
+        request, "litereview/create_review.html", context=context,
     )
     # return render(
     #     request, "litereview/replyticket.html", context=context,
