@@ -268,6 +268,7 @@ def posts_page(request):
         "form": form,
         "user_id": request.user.id,
     }
+    print(context)
     return render(request, "litereview/posts.html", context=context)
 
 
@@ -328,6 +329,7 @@ def follower_page(request):
         "followers": followers,
         "display_error": display_error,
     }
+
     return render(request, "litereview/abonnement.html", context=context)
 
 
@@ -345,6 +347,7 @@ def ticket_page(request):
             return redirect("flux")
 
     context = {"ticket_form": ticket_form}
+    print(context, 'ticket_page')
     return render(request, "litereview/ticket.html", context=context)
     # @login_required
     # def ticket_page(request):
@@ -378,6 +381,7 @@ def ticket_page_update(request, ticket_id):
         "ticket_values": ticket_id,
         "loaded_image": ticket_to_update.image,
     }
+    print(context, "ticket_page_update")
     return render(request, "litereview/partials/ticket.html", context=context)
 
 
@@ -420,10 +424,12 @@ def review_page(request):
         "ticket_form": ticket_form,
         "review_form": review_form,
     }
-
     return render(
-        request, "litereview/replyticket.html", context=context,
+        request, "/create_review.html", context=context,
     )
+    # return render(
+    #     request, "litereview/replyticket.html", context=context,
+    # )
 
 
 @login_required
