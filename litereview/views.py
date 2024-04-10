@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 
 from Le_site import settings
 from litereview import forms
-from litereview.models import UserFollows, Review, Ticket, UserBlock, User
+from litereview.models import UserFollows, Review, Ticket, User
 
 
 # Create your views here.
@@ -489,20 +489,24 @@ def unfollow_page(request):
 @login_required
 @require_POST
 def block_page(request):
-    form = forms.BlockForm(request.POST)
-    if form.is_valid():
-        username = form.cleaned_data.get("username")
+    block_form = BlockForm(request.POST)
+    if block_form.is_valid():
+        username = block_form.cleaned_data.get("blocked_user")
         user_to_block = get_object_or_404(User, username=username)
 
         if user_to_block == request.user:
             return redirect("subscription")
 
-        block_relationship = UserBlock.objects.filter(user=request.user, blocked_user=user_to_block)
+        block_relationship = UserBlocks.objects.filter(user=request.user, blocked_user=user_to_block)
 
         if block_relationship.exists():
             block_relationship.delete()
         else:
-            UserBlock.objects.create(user=request.user, blocked_user=user_to_block)
+            block = block_form.save(commit=False)
+            block.user = request.user
+            block.save()
+
+            # Unfollow the user if they were followed
             follow = UserFollows.objects.filter(user=request.user, followed_user=user_to_block)
             follow_back = UserFollows.objects.filter(user=user_to_block, followed_user=request.user)
 
@@ -511,7 +515,6 @@ def block_page(request):
             if follow_back.exists():
                 follow_back.delete()
 
-        return redirect("subscription")
     return redirect("subscription")
 
 

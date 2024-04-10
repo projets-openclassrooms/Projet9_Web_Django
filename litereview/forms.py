@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from litereview import models
-from litereview.models import Ticket, Review
+from litereview.models import Ticket, Review, UserBlock
 
 
 class SignUpForm(UserCreationForm):
@@ -88,3 +88,12 @@ class FeedForm(forms.ModelForm):
     class Meta:
         model = models.Ticket
         fields = []
+
+
+class BlockForm:
+    class Meta:
+        model = UserBlock
+        fields = ['blocked_user']
+
+    def __init__(self):
+        self.cleaned_data = None

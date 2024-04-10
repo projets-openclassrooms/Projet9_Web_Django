@@ -79,6 +79,7 @@ class UserFollows(models.Model):
 
 
 class UserBlock(models.Model):
+    objects = None
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blocking"
     )

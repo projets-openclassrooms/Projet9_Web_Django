@@ -50,7 +50,7 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <p class="card-text">{{ follower.user }}</p>
-                    <form method="post" action="/block">
+                    <form method="post" action="">
                         {% csrf_token %}
                         <input type="hidden" name="username" value="{{ follower.user }}">
                         <button class="btn btn-outline-warning" type="submit">Bloquer</button>
