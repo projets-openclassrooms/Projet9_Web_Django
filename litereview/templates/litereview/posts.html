@@ -58,8 +58,10 @@
             <p class="card-text">{{ post.ticket.description }}</p>
             {% if post.ticket.image %}
             <a href="/media/{{ post.ticket.image }}">
-                <img class="img-fluid" src="/media/{{ post.ticket.image }}" alt="{{ post.ticket.title }}">
+                <img class="img-fluid" style="width: 200px;" src="/media/{{ post.ticket.image }}"
+                     alt="{{ post.ticket.title }}">
             </a>
+            <p></p>
             {% endif %}
             {% if post.ticket.user == request.user %}
             <div class="d-flex justify-content-end">
