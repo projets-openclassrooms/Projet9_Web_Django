@@ -81,13 +81,23 @@ def delete_review(request, review_id):
     return HttpResponse(template.render(context, request))
 
 
-def update_review(request, review_id):
-    mydata = User.objects.all().values()
-    template = loader.get_template("template.html")
+def update_review(request, ticket_id):
+    post = get_object_or_404(Ticket, id=ticket_id)
+    template = loader.get_template("litereview/create_review.html")
+    review_form = forms.ReviewForm()
+    if request.method == "POST":
+        review_form = forms.ReviewForm(request.POST)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = post
+            review.save()
+            return redirect("posts")
     context = {
-        'utilisateurs': mydata,
-    }
-    return HttpResponse(template.render(context, request))
+        'review_form': review_form,
+        'post': post
+    },
+    return render(request, template, context=context, )
 
 
 @login_required
@@ -492,7 +502,7 @@ def unfollow_page(request):
                 user_follow = UserFollows.objects.filter(user=request.user, followed_user=user_to_unfollow)
                 if user_follow.exists():
                     user_follow.delete()
-                    return redirect("litereview:subscription")
+                    return redirect("subscription")
     return redirect("subscription")
 
 
@@ -595,12 +605,15 @@ def modify_review(request, review_id):
 
 
 @login_required
-def reply_page(request):
-    if request.method == "POST":
-        return process_post_request(request)
-    elif request.method == "GET" and "ticket_id" in request.GET:
-        return process_get_request(request)
-    return redirect("flux")
+def reply_page(request, post_id):
+    # if request.method == "POST":
+    #     return process_post_request(request)
+    # elif request.method == "GET" and "ticket_id" in request.GET:
+    #     return process_get_request(request)
+    # return redirect("flux")
+    ticket = get_object_or_404(Ticket, id=post_id)
+    context = {"ticket", ticket}
+    return render(request, "litereview/replyticket.html", )
 
 
 def process_post_request(request):
