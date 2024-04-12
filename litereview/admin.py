@@ -4,7 +4,7 @@ from litereview.models import User, Ticket, Review, UserFollows, UserBlock
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ["first_name", "last_name", "username"]
+    list_display = ["first_name", "last_name", "username", "id", ]
 
 
 class TicketAdmin(admin.ModelAdmin):
@@ -24,11 +24,11 @@ class ReviewAdmin(admin.ModelAdmin):
 
 
 class UserFollowsAdmin(admin.ModelAdmin):
-    list_display = ["followed_user", "user"]
+    list_display = ["followed_user", "user", "id"]
 
 
 class UserBlockAdmin(admin.ModelAdmin):
-    list_display = ["blocked_user", "user"]
+    list_display = ["blocked_user", "user", "id"]
 
 
 
