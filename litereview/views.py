@@ -447,24 +447,15 @@ def review_page(request):
 
 
 @login_required
-def review_page_update(request, ticket_id, review_id):
-    ticket = Ticket.objects.filter(id=ticket_id)[0]
-    ticket_info = {}
-    for field in ticket._meta.get_fields():
-        excluded_field = ["id", "ticket", "review"]
-        if hasattr(ticket, field.name) and field.name not in excluded_field:
-            ticket_info[field.name] = getattr(ticket, field.name)
-    review_to_update = Review.objects.get(id=review_id)
-    form = forms.ReviewForm(instance=review_to_update)
-
-    if request.method == "POST":
-        review_form = forms.ReviewForm(request.POST, instance=review_to_update)
-        if any([review_form.is_valid()]):
-            review_form.save()
-            return redirect("feed")
-
-    context = {"ticket": ticket_info, "review_form": form}
-    return render(request, "litereview/partials/create-review.html", context=context)
+@require_POST
+def review_page_update(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    reviews = ticket.review_set.all()
+    context = {
+        'ticket': ticket,
+        'reviews': reviews,
+    }
+    return render(request, 'litereview/ticket_reviews.html', context)
 
 
 @login_required
