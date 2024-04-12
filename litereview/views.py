@@ -157,8 +157,8 @@ def feed_page(request):
         post_action = post_value.split("_")[0]
 
         # checks the value sent by the post request
-        if post_action == "create-review":
-            return redirect("/create-review/" + post_id)
+        if post_action == "update-review":
+            return redirect("/update-review/" + post_id)
 
         if post_action == "delete-review":
             delete_review = Review.objects.get(ticket=post_id)
@@ -399,51 +399,31 @@ def ticket_page_update(request, ticket_id):
 
 @login_required
 def review_page(request):
-    # ticket = Ticket.objects.filter(id=ticket_id)[0]
-    # ticket_info = {}
-    # for field in ticket._meta.get_fields():
-    #     excluded_field = ["id", "ticket", "review"]
-    #     if hasattr(ticket, field.name) and field.name not in excluded_field:
-    #         ticket_info[field.name] = getattr(ticket, field.name)
-    # form = forms.ReviewForm()
-    #
-    # if request.method == "POST":
-    #     review_form = forms.ReviewForm(request.POST)
-    #     if review_form.is_valid():
-    #         review = review_form.save(commit=False)
-    #         review.user = request.user
-    #         review.ticket = ticket
-    #         review.save()
-    #         return redirect("post")
-    #
-    # context = {"ticket": ticket_info, "review_form": form}
-    # return render(request, "litereview/partials/create-review.html", context=context)
-    ticket_form = forms.TicketForm()
-    review_form = forms.ReviewForm()
-    if request.method == "POST":
-        ticket_form = forms.TicketForm(request.POST, request.FILES)
-        review_form = forms.ReviewForm(request.POST)
-        if all([ticket_form.is_valid(), review_form.is_valid()]):
-            ticket = ticket_form.save(commit=False)
-            ticket.user = request.user
-            ticket.save()
-            review = review_form.save()
-            review.user = request.user
-            review.ticket = ticket
-            review.save()
-            return redirect("posts")
-    context = {
-        "ticket_form": ticket_form,
-        "review_form": review_form,
-    }
-    print('review_page')
-    print(context)
-    return render(
-        request, "litereview/create_review.html", context=context,
+    ticket_form = forms.TicketForm(
+        request.POST if request.method == "POST" else None,
+        request.FILES if request.method == "POST" else None
     )
-    # return render(
-    #     request, "litereview/replyticket.html", context=context,
-    # )
+    review_form = forms.ReviewForm(
+        request.POST if request.method == "POST" else None)
+    if (request.method == "POST" and ticket_form.is_valid() and
+            review_form.is_valid()):
+        ticket = ticket_form.save(commit=False)
+        ticket.user = request.user
+        review = review_form.save(commit=False)
+        review.ticket = ticket
+        review.user = request.user
+        ticket.save()
+        review.save()
+        return redirect('home')
+    return render(
+        request,
+        'litereview/review.html',
+        context={
+            "ticket_form": ticket_form,
+            "review_form": review_form,
+        }
+    )
+
 
 
 @login_required
@@ -455,7 +435,7 @@ def review_page_update(request, ticket_id):
         'ticket': ticket,
         'reviews': reviews,
     }
-    return render(request, 'litereview/ticket_reviews.html', context)
+    return render(request, 'litereview/review.html', context)
 
 
 @login_required

@@ -14,7 +14,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('litereview', include('litereview.urls'))
 """
-# render(request, "litereview/flux.html", context=context)
 
 from django.contrib.auth.views import LoginView
 from django.urls import path
