@@ -257,14 +257,14 @@ def posts_page(request):
             # only allows to delete own reviews
             if delete_review.user == request.user:
                 delete_review.delete()
-            return redirect("post")
+            return redirect("posts")
 
         if post_action == "delete-ticket":
             delete_ticket = Ticket.objects.get(id=post_id)
             # only allows to delete own ticket
             if delete_ticket.user == request.user:
                 delete_ticket.delete()
-            return redirect("post")
+            return redirect("posts")
 
         if post_action == "update-review":
             review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
@@ -528,7 +528,7 @@ def delete_post(request):
                 if ticket.image:
                     os.remove(ticket.image.path)
                 ticket.delete()
-    return redirect("post")
+    return redirect("posts")
 
 
 def modify_page(request):

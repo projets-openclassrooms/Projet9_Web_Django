@@ -8,7 +8,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ["title", "description", "user", "time_created"]
+    list_display = ["title", "description", "user", "time_created", "id"]
 
 
 class ReviewAdmin(admin.ModelAdmin):
