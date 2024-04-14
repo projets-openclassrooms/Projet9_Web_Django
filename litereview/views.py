@@ -1,9 +1,11 @@
 import copy
 import os
+from itertools import chain
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
@@ -107,46 +109,60 @@ def feed_page(request):
     [{ticket: {ticket.values,..},review: {review.values,..}}]
     """
     tickets_with_reviews = []
+    followed_users = request.user.follows.all()
+    print(followed_users)
+    # Récupérer les tickets et critiques créés par les utilisateurs suivis et l'utilisateur actuel
+    reviews = Review.objects.filter(
+        Q(user__in=followed_users) | Q(user=request.user)
+    )
+    tickets = Ticket.objects.filter(
+        Q(user__in=followed_users) | Q(user=request.user)
+    )
     form = None
-
-    # generates the user list to display
-    user_list_filter = [request.user]
-    for user_query in UserFollows.objects.filter(user=request.user):
-        user_list_filter.append(user_query.followed_user)
-
-    # displays all tickets and/or reviews posted by request.user or followed users
-    for ticket in Ticket.objects.filter(user__in=user_list_filter):
-        reviews_data = []
-        for review in Review.objects.filter(ticket=ticket):
-            review_info = {}
-            for field in review._meta.get_fields():
-                excluded_field = ["id", "ticket"]
-                if hasattr(review, field.name) and field.name not in excluded_field:
-                    review_info[field.name] = getattr(review, field.name)
-            reviews_data.append(review_info)
-
-        ticket.combined_date = ticket.time_created
-        ticket.is_open_to_review = True
-        review = None
-        if reviews_data:
-            # adds the original ticket without the review
-            ticket.is_open_to_review = False
-            ticket_without_review = copy.copy(ticket)
-            tickets_with_reviews.append(
-                {"ticket": ticket_without_review, "review": None}
-            )
-
-            # keep the first and only review if any
-            review = reviews_data[0]
-            if review["time_created"] > ticket.time_created:
-                ticket.combined_date = review["time_created"]
-
-        form = copy.copy(forms.FeedForm())
-        tickets_with_reviews.append({"ticket": ticket, "review": review, "form": form})
+    # mes_posts = Ticket.objects.filter(~Q(user=request.user))
+    # print(mes_posts)
+    # # generates the user list to display
+    # user_list_filter = [request.user]
+    # for user_query in UserFollows.objects.filter(user=request.user):
+    #     user_list_filter.append(user_query.followed_user)
+    #
+    # # displays all tickets and/or reviews posted by request.user or followed users
+    # for ticket in Ticket.objects.filter(user__in=user_list_filter):
+    #     reviews_data = []
+    #     for review in Review.objects.filter(ticket=ticket):
+    #         review_info = {}
+    #         for field in review._meta.get_fields():
+    #             excluded_field = ["id", "ticket"]
+    #             if hasattr(review, field.name) and field.name not in excluded_field:
+    #                 review_info[field.name] = getattr(review, field.name)
+    #         reviews_data.append(review_info)
+    #
+    #     ticket.combined_date = ticket.time_created
+    #     ticket.is_open_to_review = True
+    #     review = None
+    #     if reviews_data:
+    #         # adds the original ticket without the review
+    #         ticket.is_open_to_review = False
+    #         ticket_without_review = copy.copy(ticket)
+    #         tickets_with_reviews.append(
+    #             {"ticket": ticket_without_review, "review": None}
+    #         )
+    #
+    #         # keep the first and only review if any
+    #         review = reviews_data[0]
+    #         if review["time_created"] > ticket.time_created:
+    #             ticket.combined_date = review["time_created"]
+    #
+    form = copy.copy(forms.FeedForm())
+    #     tickets_with_reviews.append({"ticket": ticket, "review": review, "form": form})
 
     # sorting the list in reverse: most recent first
-    tickets_with_reviews.sort(key=lambda d: d["ticket"].combined_date, reverse=True)
-
+    # tickets_with_reviews.sort(key=lambda d: d["ticket"].combined_date, reverse=True)
+    tickets_with_reviews = sorted(
+        chain(reviews, tickets),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
     # adds the form component for creating a review
 
     if request.method == "POST":
@@ -185,8 +201,8 @@ def feed_page(request):
         "form": form,
         "user_id": request.user.id,
     }
-    print('flux')
-    print(context)
+    # print('flux')
+    # print(context)
     return render(request, "litereview/flux.html", context=context)
 
 
