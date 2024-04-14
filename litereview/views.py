@@ -119,41 +119,9 @@ def feed_page(request):
         Q(user__in=followed_users) | Q(user=request.user)
     )
     form = None
-    # mes_posts = Ticket.objects.filter(~Q(user=request.user))
-    # print(mes_posts)
-    # # generates the user list to display
-    # user_list_filter = [request.user]
-    # for user_query in UserFollows.objects.filter(user=request.user):
-    #     user_list_filter.append(user_query.followed_user)
+
     #
-    # # displays all tickets and/or reviews posted by request.user or followed users
-    # for ticket in Ticket.objects.filter(user__in=user_list_filter):
-    #     reviews_data = []
-    #     for review in Review.objects.filter(ticket=ticket):
-    #         review_info = {}
-    #         for field in review._meta.get_fields():
-    #             excluded_field = ["id", "ticket"]
-    #             if hasattr(review, field.name) and field.name not in excluded_field:
-    #                 review_info[field.name] = getattr(review, field.name)
-    #         reviews_data.append(review_info)
-    #
-    #     ticket.combined_date = ticket.time_created
-    #     ticket.is_open_to_review = True
-    #     review = None
-    #     if reviews_data:
-    #         # adds the original ticket without the review
-    #         ticket.is_open_to_review = False
-    #         ticket_without_review = copy.copy(ticket)
-    #         tickets_with_reviews.append(
-    #             {"ticket": ticket_without_review, "review": None}
-    #         )
-    #
-    #         # keep the first and only review if any
-    #         review = reviews_data[0]
-    #         if review["time_created"] > ticket.time_created:
-    #             ticket.combined_date = review["time_created"]
-    #
-    form = copy.copy(forms.FeedForm())
+    # form = copy.copy(forms.FeedForm())
     #     tickets_with_reviews.append({"ticket": ticket, "review": review, "form": form})
 
     # sorting the list in reverse: most recent first
@@ -171,6 +139,8 @@ def feed_page(request):
         # post_id is ALWAYS the ticket id
         post_id = post_value.split("_")[1]
         post_action = post_value.split("_")[0]
+        print(post_value)
+        print(post_action)
 
         # checks the value sent by the post request
         if post_action == "update-review":
