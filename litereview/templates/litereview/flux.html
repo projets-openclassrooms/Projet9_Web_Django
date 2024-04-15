@@ -13,12 +13,12 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="column justify-content-center mb-4 ">
         {% if tickets_with_reviews %}
         {% for instance in tickets_with_reviews %}
         {% if instance.content_type == "REVIEW" %}
         <div class="col-md-6 mb-4">
-            <div class="card">
+            <div class="card  justify-content-center mb-4">
                 <div class="card-header">
                     <p class="mb-0">{{ instance.user }} a créé une revue</p>
                     <small class="text-muted">{{ instance.time_created }}</small>
@@ -51,7 +51,7 @@
         </div>
         {% else %}
         <div class="col-md-6 mb-4">
-            <div class="card">
+            <div class="card justify-content-center mb-4">
                 <div class="card-header">
                     <p class="mb-0">{{ instance.user }} a créé un ticket</p>
                     <small class="text-muted">{{ instance.time_created }}</small>

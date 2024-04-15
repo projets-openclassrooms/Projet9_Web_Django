@@ -83,10 +83,10 @@ def delete_review(request, review_id):
     return HttpResponse(template.render(context, request))
 
 
-def update_review(request, ticket_id):
-    post = get_object_or_404(Ticket, id=ticket_id)
-    template = loader.get_template("litereview/create_review.html")
-    review_form = forms.ReviewForm()
+def update_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    template = loader.get_template("litereview/update_review.html")
+    form = forms.ReviewForm()
     if request.method == "POST":
         review_form = forms.ReviewForm(request.POST)
         if review_form.is_valid():
@@ -96,8 +96,8 @@ def update_review(request, ticket_id):
             review.save()
             return redirect("posts")
     context = {
-        'review_form': review_form,
-        'post': post
+        'form': form,
+        'review': review
     },
     return render(request, template, context=context, )
 
@@ -118,7 +118,7 @@ def feed_page(request):
     tickets = Ticket.objects.filter(
         Q(user__in=followed_users) | Q(user=request.user)
     )
-    form = None
+    # form = None
 
     #
     # form = copy.c
@@ -135,43 +135,43 @@ def feed_page(request):
     )
     # adds the form component for creating a review
 
-    if request.method == "POST":
-        # extract action to do and ticket id
-        post_value = request.POST.get("post_value")
-        # post_id is ALWAYS the ticket id
-        post_id = post_value.split("_")[1]
-        post_action = post_value.split("_")[0]
-        print(post_value)
-        print(post_action)
-        print(post_id)
-
-        # checks the value sent by the post request
-        if post_action == "update-review":
-            return redirect("/update-review/" + post_id)
-
-        if post_action == "delete-review":
-            delete_review = Review.objects.get(ticket=post_id)
-            # only allows to delete own reviews
-            if delete_review.user == request.user:
-                delete_review.delete()
-            return redirect("flux")
-
-        if post_action == "delete-ticket":
-            delete_ticket = Ticket.objects.get(id=post_id)
-            # only allows to delete own ticket
-            if delete_ticket.user == request.user:
-                delete_ticket.delete()
-            return redirect("flux")
-
-        if post_action == "update-review":
-            review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
-            return redirect(f"/create-review/{post_id}/{review.id}")
-
-        if post_action == "update-ticket":
-            return redirect("/create-ticket/" + post_id)
+    # if request.method == "POST":
+    #     # extract action to do and ticket id
+    #     post_value = request.POST.get("post_value")
+    #     # post_id is ALWAYS the ticket id
+    #     post_id = post_value.split("_")[1]
+    #     post_action = post_value.split("_")[0]
+    #     print(post_value)
+    #     print(post_action)
+    #     print(post_id)
+    #
+    #     # checks the value sent by the post request
+    #     if post_action == "update-review":
+    #         return redirect("/update-review/" + post_id)
+    #
+    #     if post_action == "delete-review":
+    #         delete_review = Review.objects.get(ticket=post_id)
+    #         # only allows to delete own reviews
+    #         if delete_review.user == request.user:
+    #             delete_review.delete()
+    #         return redirect("flux")
+    #
+    #     if post_action == "delete-ticket":
+    #         delete_ticket = Ticket.objects.get(id=post_id)
+    #         # only allows to delete own ticket
+    #         if delete_ticket.user == request.user:
+    #             delete_ticket.delete()
+    #         return redirect("flux")
+    #
+    #     if post_action == "update-review":
+    #         review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
+    #         return redirect(f"/create-review/{post_id}/{review.id}")
+    #
+    #     if post_action == "update-ticket":
+    #         return redirect("/create-ticket/" + post_id)
     context = {
         "tickets_with_reviews": tickets_with_reviews,
-        "form": form,
+        # "form": form,
         "user_id": request.user.id,
     }
     # # print('flux')
@@ -568,14 +568,15 @@ def modify_review(request, review_id):
 
 @login_required
 def reply_page(request, post_id):
-    # if request.method == "POST":
-    #     return process_post_request(request)
-    # elif request.method == "GET" and "ticket_id" in request.GET:
-    #     return process_get_request(request)
-    # return redirect("flux")
-    ticket = get_object_or_404(Ticket, id=post_id)
-    context = {"ticket", ticket}
-    return render(request, "litereview/replyticket.html", )
+    if request.method == "POST":
+
+        return process_post_request(request)
+    elif request.method == "GET" and "ticket_id" in request.GET:
+        return process_get_request(request)
+    return redirect("flux")
+
+    context = {"form", form}
+    return render(request, "litereview/create-review.html", )
 
 
 def process_post_request(request):
