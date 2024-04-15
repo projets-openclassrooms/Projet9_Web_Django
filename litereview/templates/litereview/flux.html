@@ -40,7 +40,8 @@
                             <p class="card-text">{{ instance.ticket.description }}</p>
                             {% if instance.ticket.image %}
                             <a href="/media/{{ instance.ticket.image }}">
-                                <img class="img-fluid" src="/media/{{ instance.ticket.image }}" alt="Ticket Image">
+                                <img class="img-thumbnail" style="width:100%" src="/media/{{ instance.ticket.image }}"
+                                     alt="Ticket Image">
                             </a>
                             {% endif %}
                         </div>
@@ -60,7 +61,8 @@
                     <p class="card-text">{{ instance.description }}</p>
                     {% if instance.image %}
                     <a href="/media/{{ instance.image }}">
-                        <img class="img-fluid" src="/media/{{ instance.image }}" alt="Ticket Image">
+                        <img class="img-thumbnail" style="width:50%" src="/media/{{ instance.image }}"
+                             alt="Ticket Image">
                     </a>
                     {% endif %}
                     <div class="mt-3">

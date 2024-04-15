@@ -110,7 +110,7 @@ def feed_page(request):
     """
     tickets_with_reviews = []
     followed_users = request.user.follows.all()
-    print(followed_users)
+    # print(followed_users)
     # Récupérer les tickets et critiques créés par les utilisateurs suivis et l'utilisateur actuel
     reviews = Review.objects.filter(
         Q(user__in=followed_users) | Q(user=request.user)
@@ -121,7 +121,9 @@ def feed_page(request):
     form = None
 
     #
-    # form = copy.copy(forms.FeedForm())
+    # form = copy.c
+    #
+    # opy(forms.FeedForm())
     #     tickets_with_reviews.append({"ticket": ticket, "review": review, "form": form})
 
     # sorting the list in reverse: most recent first
@@ -139,8 +141,8 @@ def feed_page(request):
         # post_id is ALWAYS the ticket id
         post_id = post_value.split("_")[1]
         post_action = post_value.split("_")[0]
-        print(post_value)
-        print(post_action)
+        # print(post_value)
+        # print(post_action)
 
         # checks the value sent by the post request
         if post_action == "update-review":
@@ -171,8 +173,8 @@ def feed_page(request):
         "form": form,
         "user_id": request.user.id,
     }
-    # print('flux')
-    # print(context)
+    # # print('flux')
+    # # print(context)
     return render(request, "litereview/flux.html", context=context)
 
 
@@ -259,14 +261,14 @@ def posts_page(request):
         if post_action == "update-ticket":
             return redirect("/create-ticket/" + post_id)
 
-    print('posts_page')
+    # print('posts_page')
 
     context = {
         "tickets_with_reviews": tickets_with_reviews,
         "form": form,
         "user_id": request.user.id,
     }
-    print(context)
+    # print(context)
     return render(request, "litereview/posts.html", context=context)
 
 
@@ -278,14 +280,14 @@ def follower_page(request):
     # les abonnes
     followers = UserFollows.objects.filter(followed_user=request.user)
     display_error = None
-    print("here")
+    # print("here")
     if request.method == "POST":
         post_value = request.POST.get("post_value")
-        print("-1")
+        # print("-1")
 
         # checks the value sent by the post request
         if post_value == "follow":
-            print("0")
+            # print("0")
             # recuperation de username et creation d l abonnement
             try:
                 followed_user_target = User.objects.get(
@@ -302,12 +304,12 @@ def follower_page(request):
                 }
                 return render(request, "litereview/abonnement.html", context=context)
 
-            print("1")
+            # print("1")
             if followed_user_target == request.user:
                 display_error = "Vous ne pouvez pas vous abonner à vous même."
             else:
                 try:
-                    print("2")
+                    # print("2")
                     follow = UserFollows()
                     follow.user = request.user
                     follow.followed_user = followed_user_target
@@ -339,7 +341,7 @@ def ticket_page(request):
 
     if request.method == "POST":
         ticket_form = forms.TicketForm(request.POST, request.FILES)
-        print(request.FILES)
+        # print(request.FILES)
         if ticket_form.is_valid():
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
@@ -347,7 +349,7 @@ def ticket_page(request):
             return redirect("flux")
 
     context = {"ticket_form": ticket_form}
-    print(context, 'ticket_page')
+    # print(context, 'ticket_page')
     return render(request, "litereview/ticket.html", context=context)
     # @login_required
     # def ticket_page(request):
@@ -381,7 +383,7 @@ def ticket_page_update(request, ticket_id):
         "ticket_values": ticket_id,
         "loaded_image": ticket_to_update.image,
     }
-    print(context, "ticket_page_update")
+    # print(context, "ticket_page_update")
     return render(request, "litereview/partials/ticket.html", context=context)
 
 
