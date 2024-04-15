@@ -141,8 +141,9 @@ def feed_page(request):
         # post_id is ALWAYS the ticket id
         post_id = post_value.split("_")[1]
         post_action = post_value.split("_")[0]
-        # print(post_value)
-        # print(post_action)
+        print(post_value)
+        print(post_action)
+        print(post_id)
 
         # checks the value sent by the post request
         if post_action == "update-review":
