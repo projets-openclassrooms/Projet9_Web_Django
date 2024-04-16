@@ -1,0 +1,46 @@
+/* Styles généraux */
+* {
+  margin-top: 2px;
+}
+/* Styles pour les boutons primaires */
+.btn.btn-primary {
+  background-color: #007bff; /* Couleur de fond */
+  border-color: #007bff; /* Couleur de la bordure */
+  color: #fff; /* Couleur du texte */
+  padding: 0.5rem 1rem; /* Espacement interne */
+  font-size: 1rem; /* Taille de police */
+  border-radius: 0.25rem; /* Rayon des coins */
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Transition pour les effets */
+  margin: 4px; /* Espacement (gap) de 2px */
+}
+
+.btn.btn-primary:hover {
+  background-color: #0069d9; /* Couleur de fond au survol */
+  border-color: #0062cc; /* Couleur de la bordure au survol */
+}
+
+.btn.btn-primary:focus,
+.btn.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5); /* Ombre de focus */
+}
+
+.btn.btn-primary:active,
+.btn.btn-primary.active,
+.show > .btn.btn-primary.dropdown-toggle {
+  background-color: #0062cc; /* Couleur de fond active */
+  border-color: #005cbf; /* Couleur de la bordure active */
+}
+
+.btn.btn-primary:disabled,
+.btn.btn-primary.disabled {
+  background-color: #007bff; /* Couleur de fond désactivé */
+  border-color: #007bff; /* Couleur de la bordure désactivé */
+  opacity: 0.65; /* Opacité désactivé */
+}
+
+.column.justify-content-center.mb-4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 4rem;
+}

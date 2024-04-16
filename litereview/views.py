@@ -79,18 +79,23 @@ def delete_review(request, review_id):
     template = loader.get_template("template.html")
     context = {
         'utilisateurs': mydata,
+        'revue': review_id
     }
     return HttpResponse(template.render(context, request))
 
 
 def update_review(request, review_id):
     review = get_object_or_404(Review, id=review_id)
-    template = loader.get_template("litereview/update_review.html")
+    template = loader.get_template("litereview/partials/replyticket.html")
     form = forms.ReviewForm()
+    print("etape 0")
     if request.method == "POST":
         review_form = forms.ReviewForm(request.POST)
+        print("etape 1")
         if review_form.is_valid():
             review = review_form.save(commit=False)
+            print("etape 0")
+
             review.user = request.user
             review.ticket = post
             review.save()

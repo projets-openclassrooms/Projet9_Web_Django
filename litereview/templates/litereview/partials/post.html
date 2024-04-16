@@ -11,8 +11,8 @@
             {% if post.content_type == "REVIEW" %}
             <div class="card">
                 <div class="card-header">
-                    <p class="mb-0">{{ post.user }} a créé une revue</p>
-                    <p class="mb-0">{{ post.time_created }}</p>
+                    <p class="col-md-6 mb-4">{{ post.user }} a créé une revue</p>
+                    <p class="col-md-6 mb-4">{{ post.time_created }}</p>
                 </div>
                 <div class="card-body">
                     <h3 class="card-title">{{ post.headline }}</h3>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="card bg-light mb-3">
                         <div class="card-header">
-                            <p class="mb-0">Ticket - {{ post.ticket.user }}</p>
+                            <p class="col-md-6 mb-4">Ticket - {{ post.ticket.user }}</p>
                         </div>
                         <div class="card-body">
                             <h4 class="card-title">{{ post.ticket.title }}</h4>
@@ -53,8 +53,8 @@
             {% else %}
             <div class="card">
                 <div class="card-header">
-                    <p class="mb-0">{{ post.user }} a créé un ticket</p>
-                    <p class="mb-0">{{ post.time_created }}</p>
+                    <p class="col-md-6 mb-4">{{ post.user }} a créé un ticket</p>
+                    <p class="col-md-6 mb-4">{{ post.time_created }}</p>
                 </div>
                 <div class="card-body">
                     <h3 class="card-title">{{ post.title }}</h3>
