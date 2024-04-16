@@ -84,8 +84,10 @@ def delete_review(request, review_id):
     return HttpResponse(template.render(context, request))
 
 
+@login_required
 def update_review(request, review_id):
-    review = get_object_or_404(Review, id=review_id)
+    review = Q(Review.objects.filter(
+        Q(review__in=review_id)))
     template = loader.get_template("litereview/partials/replyticket.html")
     form = forms.ReviewForm()
     print("etape 0")
@@ -97,14 +99,14 @@ def update_review(request, review_id):
             print("etape 0")
 
             review.user = request.user
-            review.ticket = post
+            review.ticket = ticket
             review.save()
             return redirect("posts")
     context = {
         'form': form,
         'review': review
     },
-    return render(request, template, context=context, )
+    return render(request, str(template), context=context, )
 
 
 @login_required

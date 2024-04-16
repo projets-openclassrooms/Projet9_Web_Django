@@ -38,7 +38,7 @@
                 <form method="post" action="/posts" class="me-2">
                     {% csrf_token %}
                     <input type="hidden" name="post_value" value="delete-review_{{ post.ticket.id }}">
-                    <button class="btn btn-danger btn-sm" type="submit">Supprimer la revue</button>
+                    <button class="btn btn-danger" type="submit">Supprimer la revue</button>
                 </form>
                 <form method="post" action="/posts">
                     {% csrf_token %}
@@ -68,7 +68,7 @@
                 <form method="post" action="/posts" class="me-2">
                     {% csrf_token %}
                     <input type="hidden" name="post_value" value="delete-ticket_{{ post.ticket.id }}">
-                    <button class="btn btn-danger btn-sm" type="submit">Supprimer le ticket</button>
+                    <button class="btn btn-danger" type="submit">Supprimer le ticket</button>
                 </form>
                 <form method="post" action="/posts">
                     {% csrf_token %}

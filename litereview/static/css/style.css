@@ -44,3 +44,8 @@
   justify-content: center;
   margin-bottom: 4rem;
 }
+
+.btn.btn-danger {
+  margin-top: 0.5rem;
+}
+}
