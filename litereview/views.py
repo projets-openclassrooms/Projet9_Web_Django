@@ -392,11 +392,23 @@ def review_page(request):
 def review_page_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     reviews = ticket.review_set.all()
-    context = {
-        'ticket': ticket,
-        'reviews': reviews,
-    }
-    return render(request, 'litereview/review.html', context)
+    print(reviews)
+    if request.method == "POST":
+        ticket_form = forms.TicketForm(request.POST, request.FILES)
+        review_form = forms.ReviewForm(request.POST)
+        if all([ticket_form.is_valid(), review_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect("feed")
+
+    context = {"ticket_form": ticket_form, "review_form": review_form}
+    return render(request, "litereview/update_review.html", context=context)
 
 
 @login_required
@@ -419,7 +431,7 @@ def tickets_reviews_page(request):
             return redirect("feed")
 
     context = {"ticket_form": ticket_form, "review_form": review_form}
-    return render(request, "litereview/partials/tickets-reviews.html", context=context)
+    return render(request, "litereview/update_review.html", context=context)
 
 
 @login_required
