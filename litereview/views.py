@@ -87,28 +87,37 @@ def delete_review(request, review_id):
 
 @login_required
 def update_review(request, review_id):
-    review = Q(Review.objects.filter(
-        Q(review__in=review_id)))
-    template = loader.get_template("litereview/partials/replyticket.html")
-    form = forms.ReviewForm()
-    print("etape 0")
+    review = get_object_or_404(Review, id=review_id)
+    post = review.ticket
+    print('etape -1')
+
+    # Vérifier si l'utilisateur est autorisé à modifier la critique
+    if not (request.user == review.user or User.objects.filter(
+            Q(user=request.user) & Q(followed_user=review.user)).exists()):
+        print('user non autorisé')
+        return redirect("flux")
+
     if request.method == "POST":
-        review_form = forms.ReviewForm(request.POST)
-        print("etape 1")
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            print("etape 0")
+        if request.user == review.user or User.objects.filter(
+                Q(user=request.user) & Q(followed_user=review.user)).exists():
+            review_form = forms.ReviewForm(request.POST, instance=review)
+            print('etape 0')
 
-            review.user = request.user
-            review.ticket = ticket
-            review.save()
-            return redirect("posts")
-    context = {
-        'form': form,
-        'review': review
-    },
-    return render(request, str(template), context=context, )
+            if review_form.is_valid():
+                print('etape 1')
 
+                review_form.save()
+                return redirect("flux")
+    else:
+        print('etape 1.1')
+
+        review_form = forms.ReviewForm(instance=review)
+
+    return render(
+        request,
+        "litereview/update_review.html",
+        context={"review_form": review_form, "post": post},
+    )
 
 @login_required
 def feed_page(request):
