@@ -5,7 +5,9 @@
 <div class="container py-4">
     <h2 class="text-center mb-4">Vos posts</h2>
     {% for post in tickets_with_reviews %}
-    <div class="card mb-4">
+
+
+    <div class="card  justify-content-center mb-4">
         {% if post.review %}
         <div class="card-header">
             <p class="mb-0">{{ post.review.user }} a créé une revue</p>
@@ -28,7 +30,7 @@
                     <p class="card-text">{{ post.ticket.description }}</p>
                     {% if post.ticket.image %}
                     <a href="/media/{{ post.ticket.image }}">
-                        <img class="img-fluid" src="/media/{{ post.ticket.image }}" alt="{{ post.ticket.title }}">
+                        <img class="img-fluid w-33" src="/media/{{ post.ticket.image }}" alt="{{ post.ticket.title }}">
                     </a>
                     {% endif %}
                 </div>
@@ -58,7 +60,7 @@
             <p class="card-text">{{ post.ticket.description }}</p>
             {% if post.ticket.image %}
             <a href="/media/{{ post.ticket.image }}">
-                <img class="img-thumbnail" style="width:50%" src="/media/{{ post.ticket.image }}"
+                <img class="img-fluid w-33" src="/media/{{ post.ticket.image }}"
                      alt="{{ post.ticket.title }}">
             </a>
             <p></p>
@@ -82,4 +84,5 @@
     </div>
     {% endfor %}
 </div>
+
 {% endblock content %}

@@ -9,13 +9,14 @@
         <div class="col-md-6">
             <div class="d-grid gap-2">
                 <a class="btn btn-primary btn-lg" href="/ticket" role="button">Demander une critique</a>
-                <a class="btn btn-primary btn-lg" href="/review" role="button">Créer une critique</a>
+                <a class="btn btn-primary btn-lg" href="/review" role="button">Créer une critique ou une revue</a>
             </div>
         </div>
     </div>
-    <div class="column justify-content-center mb-4 ">
+
         {% if tickets_with_reviews %}
         {% for instance in tickets_with_reviews %}
+    <div class="row d-flex justify-content-center mb-4">
         {% if instance.content_type == "REVIEW" %}
         <div class="col-md-6 mb-4">
             <div class="card  justify-content-center mb-4">

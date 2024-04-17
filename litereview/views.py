@@ -13,6 +13,7 @@ from django.views.decorators.http import require_POST
 
 from Le_site import settings
 from litereview import forms
+from litereview.forms import BlockForm
 from litereview.models import UserFollows, Review, Ticket, User
 
 
