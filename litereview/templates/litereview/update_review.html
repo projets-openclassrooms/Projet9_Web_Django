@@ -15,7 +15,7 @@
                     <h3 class="card-title">{{ ticket.title }}</h3>
                     <p class="card-text">{{ ticket.description }}</p>
                     {% if ticket.image %}
-                    <img class="img-fluid mb-3" src="/media/{{ ticket.image.url }}" alt="Ticket Image">
+                    <img class="img-fluid mb-3" src="/media/{{ ticket.image }}" alt="Ticket Image">
                     {% endif %}
 
 
@@ -42,7 +42,6 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <p>Critique écrite par : {{ post.review.user }}</p>
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
