@@ -391,7 +391,7 @@ def review_page(request):
 @require_POST
 def review_page_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
-    reviews = ticket.review_set.all()
+    reviews = ticket.get_constraints()
     print(reviews)
     if request.method == "POST":
         ticket_form = forms.TicketForm(request.POST, request.FILES)
