@@ -3,22 +3,22 @@
 
 {% block content %}
 <div class="container py-5">
-    <h2 class="text-center mb-4">Modifier une critique</h2>
+    <h2 class="text-center mb-4">Créer une critique </h2>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    {% if post %}
-                    <p>Vous êtes en train de modifier une réponse à :</p>
-                    <p>{{ post.review.user }} a demandé une critique</p>
-                    <p>{{ post.review.time_created }}</p>
-                    <h3 class="card-title">{{ post.review.title }}</h3>
-                    <p class="card-text">{{ post.review.description }}</p>
-                    {% if post.review.image %}
-                    <img class="img-fluid mb-3" src="/medias/{{ post.review.image }}" alt="Ticket Image">
+                    {% if ticket %}
+                    <p>Vous êtes en train de créer une réponse à :</p>
+                    <p>{{ ticket.user }} a demandé une critique</p>
+                    <p>{{ ticket.time_created }}</p>
+                    <h3 class="card-title">{{ ticket.title }}</h3>
+                    <p class="card-text">{{ ticket.description }}</p>
+                    {% if ticket.image %}
+                    <img class="img-fluid mb-3" src="/medias/{{ ticket.image.url }}" alt="Ticket Image">
                     {% endif %}
-                    {% else %}
-                    {{ review_form.as_p }}
+
+
                     {% endif %}
                     <form method="post" class="mt-4" enctype="multipart/form-data">
                         <div class="form-group">
@@ -36,15 +36,15 @@
                                 {% for radio in review_form.rating %}
                                 <div class="form-check me-3">
                                     {{ radio }}
-                                    <label class="form-check-label" for="{{ radio.id_for_label }}">{{ forloop.counter0
-                                        }}</label>
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                        {{ forloop.counter0 }}</label>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
                         <p>Critique écrite par : {{ post.review.user }}</p>
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">Modifier la critique</button>
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
                 </div>
             </div>

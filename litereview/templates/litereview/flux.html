@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% include 'litereview/partials/replyticket.html' %}
+
 {% block content %}
 <div class="container py-5">
     <h2 class="text-center mb-4">Flux</h2>
@@ -14,8 +14,8 @@
         </div>
     </div>
 
-        {% if tickets_with_reviews %}
-        {% for instance in tickets_with_reviews %}
+
+    {% for instance in tickets_with_reviews %}
     <div class="row d-flex justify-content-center mb-4">
         {% if instance.content_type == "REVIEW" %}
         <div class="col-md-6 mb-4">
@@ -66,6 +66,7 @@
                              alt="Ticket Image">
                     </a>
                     {% endif %}
+                    {% if
                     <div class="mt-3">
                         <a class="btn btn-primary" href="/update_review/{{ instance.id }}" role="button">Créer une
                             revue</a>
@@ -75,9 +76,8 @@
         </div>
         {% endif %}
         {% endfor %}
-        {{ followers.posts }}
 
-        {% endif %}
+
     </div>
 </div>
 {% endblock %}

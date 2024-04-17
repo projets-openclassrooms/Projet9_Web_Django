@@ -5,6 +5,7 @@ from itertools import chain
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.db.models import CharField, Value
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -125,12 +126,13 @@ def feed_page(request):
     # print(followed_users)
     # Récupérer les tickets et critiques créés par les utilisateurs suivis et l'utilisateur actuel
     reviews = Review.objects.filter(
-        Q(user__in=followed_users) | Q(user=request.user)
+        Q(user__in=followed_users) | Q(user=request.user) | Q(ticket__user=request.user)
     )
     tickets = Ticket.objects.filter(
         Q(user__in=followed_users) | Q(user=request.user)
     )
-
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
     tickets_with_reviews = sorted(
         chain(reviews, tickets),
         key=lambda instance: instance.time_created,
@@ -144,7 +146,7 @@ def feed_page(request):
     }
     print(tickets_with_reviews)
     print(tickets)
-    # # print('flux')
+    print(reviews)
     # # print(context)
     return render(request, "litereview/flux.html", context=context)
 
@@ -388,26 +390,22 @@ def review_page(request):
 
 
 @login_required
-@require_POST
+
 def review_page_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
-    reviews = ticket.get_constraints()
-    print(reviews)
+    print(ticket)
     if request.method == "POST":
-        ticket_form = forms.TicketForm(request.POST, request.FILES)
         review_form = forms.ReviewForm(request.POST)
-        if all([ticket_form.is_valid(), review_form.is_valid()]):
-            ticket = ticket_form.save(commit=False)
-            ticket.user = request.user
-            ticket.save()
-
+        if review_form.is_valid():
             review = review_form.save(commit=False)
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect("feed")
-
-    context = {"ticket_form": ticket_form, "review_form": review_form}
+            return redirect("flux")
+    else:
+        review_form = forms.ReviewForm()
+        print(review_form.instance)
+    context = {"review_form": review_form, 'ticket': ticket}
     return render(request, "litereview/update_review.html", context=context)
 
 
