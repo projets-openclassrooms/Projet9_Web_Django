@@ -86,38 +86,33 @@ def delete_review(request, review_id):
 
 
 @login_required
-def update_review(request, review_id):
-    review = get_object_or_404(Review, id=review_id)
-    post = review.ticket
+def update_review(request, ticket_id, review_id):
+    tickets = get_object_or_404(Ticket, id=ticket_id)
+    reviews = get_object_or_404(Review, id=review_id)
+    post = sorted(
+        chain(reviews, tickets),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
     print('etape -1')
 
+
     # Vérifier si l'utilisateur est autorisé à modifier la critique
-    if not (request.user == review.user or User.objects.filter(
-            Q(user=request.user) & Q(followed_user=review.user)).exists()):
-        print('user non autorisé')
-        return redirect("flux")
-
-    if request.method == "POST":
-        if request.user == review.user or User.objects.filter(
-                Q(user=request.user) & Q(followed_user=review.user)).exists():
-            review_form = forms.ReviewForm(request.POST, instance=review)
-            print('etape 0')
-
+    if request.user == reviews.user or request.user in reviews.ticket.user.follows.all():
+        if request.method == "POST":
+            review_form = forms.ReviewForm(request.POST, instance=reviews)
             if review_form.is_valid():
-                print('etape 1')
-
                 review_form.save()
                 return redirect("flux")
+        else:
+            review_form = forms.ReviewForm(instance=reviews)
+        return render(
+            request, "litereview/update_review.html",
+            context={"review_form": review_form, "post": post}
+        )
     else:
-        print('etape 1.1')
+        return redirect("flux")
 
-        review_form = forms.ReviewForm(instance=review)
-
-    return render(
-        request,
-        "litereview/update_review.html",
-        context={"review_form": review_form, "post": post},
-    )
 
 @login_required
 def feed_page(request):
@@ -135,62 +130,20 @@ def feed_page(request):
     tickets = Ticket.objects.filter(
         Q(user__in=followed_users) | Q(user=request.user)
     )
-    # form = None
 
-    #
-    # form = copy.c
-    #
-    # opy(forms.FeedForm())
-    #     tickets_with_reviews.append({"ticket": ticket, "review": review, "form": form})
-
-    # sorting the list in reverse: most recent first
-    # tickets_with_reviews.sort(key=lambda d: d["ticket"].combined_date, reverse=True)
     tickets_with_reviews = sorted(
         chain(reviews, tickets),
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    # adds the form component for creating a review
 
-    # if request.method == "POST":
-    #     # extract action to do and ticket id
-    #     post_value = request.POST.get("post_value")
-    #     # post_id is ALWAYS the ticket id
-    #     post_id = post_value.split("_")[1]
-    #     post_action = post_value.split("_")[0]
-    #     print(post_value)
-    #     print(post_action)
-    #     print(post_id)
-    #
-    #     # checks the value sent by the post request
-    #     if post_action == "update-review":
-    #         return redirect("/update-review/" + post_id)
-    #
-    #     if post_action == "delete-review":
-    #         delete_review = Review.objects.get(ticket=post_id)
-    #         # only allows to delete own reviews
-    #         if delete_review.user == request.user:
-    #             delete_review.delete()
-    #         return redirect("flux")
-    #
-    #     if post_action == "delete-ticket":
-    #         delete_ticket = Ticket.objects.get(id=post_id)
-    #         # only allows to delete own ticket
-    #         if delete_ticket.user == request.user:
-    #             delete_ticket.delete()
-    #         return redirect("flux")
-    #
-    #     if post_action == "update-review":
-    #         review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
-    #         return redirect(f"/create-review/{post_id}/{review.id}")
-    #
-    #     if post_action == "update-ticket":
-    #         return redirect("/create-ticket/" + post_id)
     context = {
         "tickets_with_reviews": tickets_with_reviews,
         # "form": form,
         "user_id": request.user.id,
     }
+    print(tickets_with_reviews)
+    print(tickets)
     # # print('flux')
     # # print(context)
     return render(request, "litereview/flux.html", context=context)

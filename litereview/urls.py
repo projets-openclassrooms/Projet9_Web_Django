@@ -49,7 +49,7 @@ urlpatterns = [
 
     path("modify", litereview.views.modify_page, name="modify"),
     path("create-ticket/<str:ticket_id>", litereview.views.modify_ticket, name="create-ticket"),
-    path("update_review/<str:review_id>", litereview.views.update_review, name="update_review"),
+    path("update_review/<str:ticket_id>/<str:review_id>", litereview.views.update_review, name="update_review"),
     path("delete-review/<str:ticket_id>", litereview.views.delete_review, name="delete-review"),
     path("review_page_update/<str:ticket_id>", litereview.views.review_page_update, name="review_page_update"),
     path("block", litereview.views.block_page, name="block"),
