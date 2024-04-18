@@ -5,8 +5,7 @@ from itertools import chain
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.db.models import CharField, Value
-from django.db.models import Q
+from django.db.models import CharField, Value, Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
