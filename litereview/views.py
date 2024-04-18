@@ -208,8 +208,8 @@ def posts_page(request):
         post_id = post_value.split("_")[1]
         post_action = post_value.split("_")[0]
         # checks the value sent by the post request
-        if post_action == "create-review":
-            return redirect("/create-review/" + post_id)
+        if post_action == "create_review":
+            return redirect("/create_review/" + post_id)
 
         if post_action == "delete-review":
             delete_review = Review.objects.get(ticket=post_id)
@@ -227,10 +227,10 @@ def posts_page(request):
 
         if post_action == "update-review":
             review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
-            return redirect(f"/create-review/{post_id}/{review.id}")
+            return redirect(f"/create_review/{post_id}/{review.id}")
 
         if post_action == "update-ticket":
-            return redirect("/create-ticket/" + post_id)
+            return redirect("/create_ticket/" + post_id)
 
     # print('posts_page')
 

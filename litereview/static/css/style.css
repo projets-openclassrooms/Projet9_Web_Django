@@ -53,22 +53,8 @@
 
 }
 
-i.fa-solid.fa-star.text-warning {
-    display: inline;
-    vertical-align: top;
-    content: "\002605";
-}
 
-.fa-star {
+
+i.checked {
   color: black;
-}
-.fa-star > span {
-  display: inline-block;
-  position: relative;
-  width: 1.1em;
-}
-.fa-star > span:hover:before,
-.fa-star > span:hover ~ span:before {
-  content: "\2605";
-  position: absolute;
 }
