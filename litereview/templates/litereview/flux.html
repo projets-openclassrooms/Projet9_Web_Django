@@ -28,7 +28,7 @@
                     <h3 class="card-title">{{ instance.headline }}</h3>
                     <p class="card-text">{{ instance.body }}</p>
                     <div class="d-flex justify-content-start align-items-center mb-3">
-                        {% for _ in "x"|rjust:instance.rating %}
+                        {% for _ in instance.rating|stringformat:"s"|rjust:5 %}
                         <i class="fa-solid fa-star text-warning"></i>
                         {% endfor %}
                     </div>
