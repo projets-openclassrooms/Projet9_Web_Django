@@ -5,8 +5,6 @@
 <div class="container py-4">
     <h2 class="text-center mb-4">Vos posts</h2>
     {% for post in tickets_with_reviews %}
-
-
     <div class="card  justify-content-center mb-4">
         {% if post.review %}
         <div class="card-header">
@@ -18,8 +16,9 @@
             <p class="card-text">{{ post.review.body }}</p>
             <div class="d-flex justify-content-start align-items-center mb-3">
                 {% for _ in "x"|rjust:post.review.rating %}
-                <i class="fas fa-star text-warning"></i>
+                <i class="fa-solid fa-star text-warning"></i>
                 {% endfor %}
+
             </div>
             <div class="card bg-light mb-3">
                 <div class="card-header">
@@ -65,7 +64,7 @@
             </a>
             <p></p>
             {% endif %}
-            {% if post.ticket.user == request.user %}
+            {% if post.ticket.user == request.user and not post.review %}
             <div class="d-flex justify-content-end">
                 <form method="post" action="/posts" class="me-2">
                     {% csrf_token %}
@@ -84,5 +83,4 @@
     </div>
     {% endfor %}
 </div>
-
 {% endblock content %}

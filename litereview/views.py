@@ -86,7 +86,7 @@ def delete_review(request, review_id):
 
 
 @login_required
-def update_review(request, ticket_id, review_id):
+def create_review(request, ticket_id, review_id):
     tickets = get_object_or_404(Ticket, id=ticket_id)
     reviews = get_object_or_404(Review, id=review_id)
     post = sorted(
@@ -95,7 +95,6 @@ def update_review(request, ticket_id, review_id):
         reverse=True
     )
     print('etape -1')
-
 
     # Vérifier si l'utilisateur est autorisé à modifier la critique
     if request.user == reviews.user or request.user in reviews.ticket.user.follows.all():
@@ -107,7 +106,7 @@ def update_review(request, ticket_id, review_id):
         else:
             review_form = forms.ReviewForm(instance=reviews)
         return render(
-            request, "litereview/update_review.html",
+            request, "litereview/create_review.html",
             context={"review_form": review_form, "post": post}
         )
     else:
@@ -387,9 +386,7 @@ def review_page(request):
     )
 
 
-
 @login_required
-
 def review_page_update(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     print(ticket)
@@ -405,7 +402,7 @@ def review_page_update(request, ticket_id):
         review_form = forms.ReviewForm()
         print(review_form.instance)
     context = {"review_form": review_form, 'ticket': ticket}
-    return render(request, "litereview/update_review.html", context=context)
+    return render(request, "litereview/create_review.html", context=context)
 
 
 @login_required
@@ -428,7 +425,7 @@ def tickets_reviews_page(request):
             return redirect("feed")
 
     context = {"ticket_form": ticket_form, "review_form": review_form}
-    return render(request, "litereview/update_review.html", context=context)
+    return render(request, "litereview/create_review.html", context=context)
 
 
 @login_required
@@ -543,19 +540,6 @@ def modify_review(request, review_id):
         review_form = forms.ReviewForm(instance=review)
 
     return render(request, "litereview/partials/modify.html", {"review": review, "review_form": review_form})
-
-
-@login_required
-def reply_page(request, post_id):
-    if request.method == "POST":
-
-        return process_post_request(request)
-    elif request.method == "GET" and "ticket_id" in request.GET:
-        return process_get_request(request)
-    return redirect("flux")
-
-    context = {"form", form}
-    return render(request, "litereview/create-review.html", )
 
 
 def process_post_request(request):

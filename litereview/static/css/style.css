@@ -49,6 +49,9 @@
   margin-top: 0.5rem;
 }
 
-.img {
-
+.img-thumbnail {
+  border-radius: 33%;
+  /* or */
+  clip-path: ellipse(33% 50% at 50% 50%);
 }
+

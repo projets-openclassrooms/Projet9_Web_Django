@@ -49,12 +49,11 @@ urlpatterns = [
 
     # path("modify", litereview.views.modify_page, name="modify"),
     path("create-ticket/<str:ticket_id>", litereview.views.modify_ticket, name="create-ticket"),
-    path("update_review/<str:ticket_id>", litereview.views.review_page_update, name="update_review"),
+    path("create_review/<str:ticket_id>", litereview.views.review_page_update, name="create_review"),
     path("delete-review/<str:ticket_id>", litereview.views.delete_review, name="delete-review"),
     path("review_page_update/<str:ticket_id>", litereview.views.review_page_update, name="review_page_update"),
     path("block", litereview.views.block_page, name="block"),
     path("delete_post", litereview.views.delete_post, name="delete_post"),
-    path("create-review/<str:ticket_id>", litereview.views.reply_page, name="create-review"),
     path("subscription", litereview.views.follower_page, name="subscription"),
     path("unfollow/", litereview.views.unfollow_page, name="unfollow"),
 ]

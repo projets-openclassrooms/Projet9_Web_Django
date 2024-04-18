@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <h2 class="h2">Créer une critique</h2>
+</div>
+<form class="p-4" action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-4">
+        <h5 class="h5"> Création du ticket:</h5>
+        {% bootstrap_form ticket_form layout='floating' %}
+    </div>
+    <div>
+        <h5 class="h5"> Création de la critique:</h5>
+        {% bootstrap_field review_form.headline layout='floating' %}
+    </div>
+    <div class="d-flex mb-3 gap-4">
+        Note :
+        {% for choice in review_form.rating %}
+        {{ choice }}
+        {% endfor %}
+    </div>
+    {% bootstrap_field review_form.body layout='floating' %}
+    {% bootstrap_button button_type='submit' content='Soumettre' %}
+    <a class="btn btn-danger" href="{% url 'litreview:home' %}">Annuler</a>
+</form>
+{% endblock %}
