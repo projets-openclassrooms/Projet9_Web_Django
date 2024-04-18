@@ -94,7 +94,7 @@ def create_review(request, ticket_id, review_id):
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    print('etape -1')
+    print('etap -1', tickets.rating)
 
     # Vérifier si l'utilisateur est autorisé à modifier la critique
     if request.user == reviews.user or request.user in reviews.ticket.user.follows.all():

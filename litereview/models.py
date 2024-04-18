@@ -39,6 +39,14 @@ class Ticket(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def has_review(self):
+        nb = Review.objects.filter(ticket=self).count()
+        if nb >= 1:
+            return True
+        else:
+            return False
+
 
 class Review(models.Model):
     objects = None
