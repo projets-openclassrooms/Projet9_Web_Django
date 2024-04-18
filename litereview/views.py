@@ -322,18 +322,6 @@ def ticket_page(request):
     context = {"ticket_form": ticket_form}
     # print(context, 'ticket_page')
     return render(request, "litereview/ticket.html", context=context)
-    # @login_required
-    # def ticket_page(request):
-    #     ticket_form = forms.TicketForm()
-    #
-    #     if request.method == "POST":
-    #         ticket_form = forms.TicketForm(request.POST, request.FILES)
-    #         if ticket_form.is_valid():
-    #             user, created = request.user.get_or_create(user=user, ticket=ticket_form)
-    #             ticket = ticket_form.save(commit=False)
-    #             ticket.user = user
-    #             ticket.save()
-    #             return redirect("feed")
 
 
 @login_required
