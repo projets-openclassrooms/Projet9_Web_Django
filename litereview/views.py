@@ -429,7 +429,6 @@ def unfollow_page(request):
                     return redirect("subscription")
     return redirect("subscription")
 
-
 @login_required
 @require_POST
 def block_page(request):
@@ -441,29 +440,21 @@ def block_page(request):
         if user_to_block == request.user:
             return redirect("subscription")
 
-        block_relationship = UserBlock.objects.filter(
+        block_relationship, created = UserBlock.objects.get_or_create(
             user=request.user, blocked_user=user_to_block
         )
 
-        if block_relationship.exists():
+        if not created:
             block_relationship.delete()
-        else:
-            block = block_form.save(commit=False)
-            block.user = request.user
-            block.save()
 
-            # Unfollow the user if they were followed
-            follow = UserFollows.objects.filter(
-                user=request.user, followed_user=user_to_block
-            )
-            follow_back = UserFollows.objects.filter(
-                user=user_to_block, followed_user=request.user
-            )
-
-            if follow.exists():
-                follow.delete()
-            if follow_back.exists():
-                follow_back.delete()
+        # Unfollow the user if they were followed
+        follow = UserFollows.objects.filter(
+            Q(user=request.user, followed_user=user_to_block) |
+            Q(user=user_to_block, followed_user=request.user)
+        )
+        print(follow)
+        if follow.exists():
+            follow.delete()
 
     # Code to handle the "Bloquer" button in the followers list
     if "post_value" in request.POST:
@@ -473,31 +464,22 @@ def block_page(request):
         if user_to_block == request.user:
             return redirect("subscription")
 
-        block_relationship = UserBlock.objects.filter(
+        block_relationship, created = UserBlock.objects.get_or_create(
             user=request.user, blocked_user=user_to_block
         )
 
-        if block_relationship.exists():
+        if not created:
             block_relationship.delete()
-        else:
-            block = UserBlock(user=request.user, blocked_user=user_to_block)
-            block.save()
 
-            # Unfollow the user if they were followed
-            follow = UserFollows.objects.filter(
-                user=request.user, followed_user=user_to_block
-            )
-            follow_back = UserFollows.objects.filter(
-                user=user_to_block, followed_user=request.user
-            )
-
-            if follow.exists():
-                follow.delete()
-            if follow_back.exists():
-                follow_back.delete()
+        # Unfollow the user if they were followed
+        follow = UserFollows.objects.filter(
+            Q(user=request.user, followed_user=user_to_block) |
+            Q(user=user_to_block, followed_user=request.user)
+        )
+        if follow.exists():
+            follow.delete()
 
     return redirect("subscription")
-
 
 @login_required
 @require_POST

@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
 <div class="container py-4">
     <h2 class="text-center mb-4">Vos posts</h2>
     {% for post in tickets_with_reviews %}
-
-
     <div class="card  justify-content-center mb-4">
         {% if post.review %}
         <div class="card-header">
@@ -18,7 +15,7 @@
             <p class="card-text">{{ post.review.body }}</p>
             <div class="d-flex justify-content-start align-items-center mb-3">
                 <i class="fas fa-star text-warning">
-                {% for _ in "x"|rjust:post.review.rating %}
+                    {% for _ in "x"|rjust:post.review.rating %}
                 </i>
                 {% endfor %}
             </div>
@@ -85,5 +82,4 @@
     </div>
     {% endfor %}
 </div>
-
 {% endblock content %}
