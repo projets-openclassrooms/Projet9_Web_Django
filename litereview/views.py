@@ -225,7 +225,7 @@ def posts_page(request):
 
         if post_action == "update-review":
             review = Review.objects.get(ticket=Ticket.objects.get(id=post_id))
-            return redirect(f"/create_review/{post_id}/{review.id}")
+            return redirect(f"update_review/{review.id}")
 
         if post_action == "update-ticket":
             return redirect("/create_ticket/" + post_id)
@@ -392,6 +392,7 @@ def review_page_update(request, ticket_id):
 @login_required
 def update_review_page(request, review_id):
     review = Review.objects.get(id=review_id)
+    post = review.ticket
     print(review)
     if request.method == "POST":
         review_form = forms.ReviewForm(request.POST)
@@ -402,7 +403,7 @@ def update_review_page(request, review_id):
         review_form = forms.ReviewForm(instance=review)
         print(review_form.instance)
     context = {"review_form": review_form, "post": post}
-    return render(request, "litereview/partials/create-review.html", context=context)
+    return render(request, "litereview/partials/update-review.html", context=context)
 
 
 @login_required
