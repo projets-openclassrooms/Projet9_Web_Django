@@ -42,7 +42,7 @@ urlpatterns = [
     path("posts", litereview.views.posts_page, name="posts"),
     path("ticket", litereview.views.ticket_page, name="ticket"),
     path(
-        "modify/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"
+        "create_ticket/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"
     ),
     path("review/", litereview.views.review_page, name="review"),
     # path("modify", litereview.views.modify_page, name="modify"),
