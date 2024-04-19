@@ -17,11 +17,15 @@ class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ("username",)
-        help_texts = {"username": None, }
-        widgets = {"username": forms.TextInput(
-            attrs={"placeholder": "Nom d'utilisateur"}
-        ), }
-        labels = {"username": "", }
+        help_texts = {
+            "username": None,
+        }
+        widgets = {
+            "username": forms.TextInput(attrs={"placeholder": "Nom d'utilisateur"}),
+        }
+        labels = {
+            "username": "",
+        }
 
 
 class LogInForm(forms.Form):
@@ -44,7 +48,6 @@ class TicketForm(forms.ModelForm):
             ),
             "image": forms.FileInput(attrs={"class": "form-file"}),
         }
-
 
 
 class DeleteTicketForm(forms.Form):
@@ -93,7 +96,7 @@ class FeedForm(forms.ModelForm):
 class BlockForm:
     class Meta:
         model = UserBlock
-        fields = ['blocked_user']
+        fields = ["blocked_user"]
 
     def __init__(self):
         self.cleaned_data = None

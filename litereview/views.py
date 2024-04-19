@@ -14,7 +14,7 @@ from django.views.decorators.http import require_POST
 from Le_site import settings
 from litereview import forms
 from litereview.forms import BlockForm
-from litereview.models import UserFollows, Review, Ticket, User
+from litereview.models import UserFollows, Review, Ticket, User, UserBlock
 
 
 # Create your views here.
@@ -65,9 +65,8 @@ def home_page(request):
 
     context = {
         "user": user,
-
     }
-    return render(request, 'litereview/home.html', context)
+    return render(request, "litereview/home.html", context)
 
 
 def logout_page(request):
@@ -78,10 +77,7 @@ def logout_page(request):
 def delete_review(request, review_id):
     mydata = User.objects.all().values()
     template = loader.get_template("template.html")
-    context = {
-        'utilisateurs': mydata,
-        'revue': review_id
-    }
+    context = {"utilisateurs": mydata, "revue": review_id}
     return HttpResponse(template.render(context, request))
 
 
@@ -92,12 +88,15 @@ def create_review(request, ticket_id, review_id):
     post = sorted(
         chain(reviews, tickets),
         key=lambda instance: instance.time_created,
-        reverse=True
+        reverse=True,
     )
-    print('etap -1', tickets.rating)
+    print("etap -1", tickets.rating)
 
     # Vérifier si l'utilisateur est autorisé à modifier la critique
-    if request.user == reviews.user or request.user in reviews.ticket.user.follows.all():
+    if (
+            request.user == reviews.user
+            or request.user in reviews.ticket.user.follows.all()
+    ):
         if request.method == "POST":
             review_form = forms.ReviewForm(request.POST, instance=reviews)
             if review_form.is_valid():
@@ -106,8 +105,9 @@ def create_review(request, ticket_id, review_id):
         else:
             review_form = forms.ReviewForm(instance=reviews)
         return render(
-            request, "litereview/create_review.html",
-            context={"review_form": review_form, "post": post}
+            request,
+            "litereview/create_review.html",
+            context={"review_form": review_form, "post": post},
         )
     else:
         return redirect("flux")
@@ -126,15 +126,13 @@ def feed_page(request):
     reviews = Review.objects.filter(
         Q(user__in=followed_users) | Q(user=request.user) | Q(ticket__user=request.user)
     )
-    tickets = Ticket.objects.filter(
-        Q(user__in=followed_users) | Q(user=request.user)
-    )
-    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
-    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+    tickets = Ticket.objects.filter(Q(user__in=followed_users) | Q(user=request.user))
+    reviews = reviews.annotate(content_type=Value("REVIEW", CharField()))
+    tickets = tickets.annotate(content_type=Value("TICKET", CharField()))
     tickets_with_reviews = sorted(
         chain(reviews, tickets),
         key=lambda instance: instance.time_created,
-        reverse=True
+        reverse=True,
     )
 
     context = {
@@ -350,12 +348,10 @@ def ticket_page_update(request, ticket_id):
 def review_page(request):
     ticket_form = forms.TicketForm(
         request.POST if request.method == "POST" else None,
-        request.FILES if request.method == "POST" else None
+        request.FILES if request.method == "POST" else None,
     )
-    review_form = forms.ReviewForm(
-        request.POST if request.method == "POST" else None)
-    if (request.method == "POST" and ticket_form.is_valid() and
-            review_form.is_valid()):
+    review_form = forms.ReviewForm(request.POST if request.method == "POST" else None)
+    if request.method == "POST" and ticket_form.is_valid() and review_form.is_valid():
         ticket = ticket_form.save(commit=False)
         ticket.user = request.user
         review = review_form.save(commit=False)
@@ -363,14 +359,14 @@ def review_page(request):
         review.user = request.user
         ticket.save()
         review.save()
-        return redirect('home')
+        return redirect("home")
     return render(
         request,
-        'litereview/review.html',
+        "litereview/review.html",
         context={
             "ticket_form": ticket_form,
             "review_form": review_form,
-        }
+        },
     )
 
 
@@ -389,8 +385,8 @@ def review_page_update(request, ticket_id):
     else:
         review_form = forms.ReviewForm()
         print(review_form.instance)
-    context = {"review_form": review_form, 'ticket': ticket}
-    return render(request, "litereview/create_review.html", context=context)
+    context = {"review_form": review_form, "ticket": ticket}
+    return render(request, "litereview/partials/create-review.html", context=context)
 
 
 @login_required
@@ -419,13 +415,15 @@ def tickets_reviews_page(request):
 @login_required
 @require_POST
 def unfollow_page(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = forms.UnfollowForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             user_to_unfollow = User.objects.filter(username=username).first()
             if user_to_unfollow and user_to_unfollow != request.user:
-                user_follow = UserFollows.objects.filter(user=request.user, followed_user=user_to_unfollow)
+                user_follow = UserFollows.objects.filter(
+                    user=request.user, followed_user=user_to_unfollow
+                )
                 if user_follow.exists():
                     user_follow.delete()
                     return redirect("subscription")
@@ -443,7 +441,9 @@ def block_page(request):
         if user_to_block == request.user:
             return redirect("subscription")
 
-        block_relationship = UserBlocks.objects.filter(user=request.user, blocked_user=user_to_block)
+        block_relationship = UserBlock.objects.filter(
+            user=request.user, blocked_user=user_to_block
+        )
 
         if block_relationship.exists():
             block_relationship.delete()
@@ -453,8 +453,43 @@ def block_page(request):
             block.save()
 
             # Unfollow the user if they were followed
-            follow = UserFollows.objects.filter(user=request.user, followed_user=user_to_block)
-            follow_back = UserFollows.objects.filter(user=user_to_block, followed_user=request.user)
+            follow = UserFollows.objects.filter(
+                user=request.user, followed_user=user_to_block
+            )
+            follow_back = UserFollows.objects.filter(
+                user=user_to_block, followed_user=request.user
+            )
+
+            if follow.exists():
+                follow.delete()
+            if follow_back.exists():
+                follow_back.delete()
+
+    # Code to handle the "Bloquer" button in the followers list
+    if "post_value" in request.POST:
+        username_to_block = request.POST.get("post_value")
+        user_to_block = get_object_or_404(User, username=username_to_block)
+
+        if user_to_block == request.user:
+            return redirect("subscription")
+
+        block_relationship = UserBlock.objects.filter(
+            user=request.user, blocked_user=user_to_block
+        )
+
+        if block_relationship.exists():
+            block_relationship.delete()
+        else:
+            block = UserBlock(user=request.user, blocked_user=user_to_block)
+            block.save()
+
+            # Unfollow the user if they were followed
+            follow = UserFollows.objects.filter(
+                user=request.user, followed_user=user_to_block
+            )
+            follow_back = UserFollows.objects.filter(
+                user=user_to_block, followed_user=request.user
+            )
 
             if follow.exists():
                 follow.delete()
@@ -511,7 +546,11 @@ def modify_ticket(request, ticket_id):
     else:
         ticket_form = forms.TicketForm(instance=ticket)
 
-    return render(request, "litereview/partials/modify.html", {"ticket": ticket, "ticket_form": ticket_form})
+    return render(
+        request,
+        "litereview/partials/modify.html",
+        {"ticket": ticket, "ticket_form": ticket_form},
+    )
 
 
 def modify_review(request, review_id):
@@ -527,7 +566,11 @@ def modify_review(request, review_id):
     else:
         review_form = forms.ReviewForm(instance=review)
 
-    return render(request, "litereview/partials/modify.html", {"review": review, "review_form": review_form})
+    return render(
+        request,
+        "litereview/partials/modify.html",
+        {"review": review, "review_form": review_form},
+    )
 
 
 def process_post_request(request):

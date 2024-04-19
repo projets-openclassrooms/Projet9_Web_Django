@@ -48,6 +48,11 @@
                 {% for follower in followers %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ follower.user.username }}
+                    <form method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_value" value="{{ follower.user.username }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Bloquer</button>
+                    </form>
                 </li>
                 {% empty %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">Vous n'avez aucun
@@ -55,7 +60,6 @@
                 </li>
                 {% endfor %}
             </ul>
-        </div>
     </div>
 </div>
 

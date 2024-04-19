@@ -37,21 +37,35 @@ urlpatterns = [
     ),
     # path("registered", litereview.views.home_page, name="registered"),
     path("logout/", litereview.views.logout_page, name="logout"),
-
     path("flux", litereview.views.feed_page, name="flux"),
     # path("testing", litereview.tests.test_testing, name="testing"),
-
     path("posts", litereview.views.posts_page, name="posts"),
     path("ticket", litereview.views.ticket_page, name="ticket"),
-    path("modify/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"),
-
+    path(
+        "modify/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"
+    ),
     path("review/", litereview.views.review_page, name="review"),
-
     # path("modify", litereview.views.modify_page, name="modify"),
-    path("create-ticket/<str:ticket_id>", litereview.views.modify_ticket, name="create-ticket"),
-    path("create_review/<str:ticket_id>", litereview.views.review_page_update, name="create_review"),
-    path("delete-review/<str:ticket_id>", litereview.views.delete_review, name="delete-review"),
-    path("review_page_update/<str:ticket_id>", litereview.views.review_page_update, name="review_page_update"),
+    path(
+        "create-ticket/<str:ticket_id>",
+        litereview.views.modify_ticket,
+        name="create-ticket",
+    ),
+    path(
+        "create_review/<str:ticket_id>",
+        litereview.views.review_page_update,
+        name="create_review",
+    ),
+    path(
+        "delete-review/<str:ticket_id>",
+        litereview.views.delete_review,
+        name="delete-review",
+    ),
+    path(
+        "review_page_update/<str:ticket_id>",
+        litereview.views.review_page_update,
+        name="review_page_update",
+    ),
     path("block", litereview.views.block_page, name="block"),
     path("delete_post", litereview.views.delete_post, name="delete_post"),
     path("subscription", litereview.views.follower_page, name="subscription"),
@@ -59,5 +73,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('', RedirectView.as_view(url='login/', permanent=True)),
+    path("", RedirectView.as_view(url="login/", permanent=True)),
 ]
