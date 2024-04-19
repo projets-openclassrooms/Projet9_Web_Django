@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from litereview.models import User, Ticket, Review, UserFollows, UserBlock
+from litereview.models import Review, Ticket, User, UserBlock, UserFollows
 
 
 class UserAdmin(admin.ModelAdmin):

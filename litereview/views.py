@@ -5,16 +5,16 @@ from itertools import chain
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.db.models import CharField, Value, Q
+from django.db.models import CharField, Q, Value
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.views.decorators.http import require_POST
 
 from Le_site import settings
 from litereview import forms
 from litereview.forms import BlockForm
-from litereview.models import UserFollows, Review, Ticket, User, UserBlock
+from litereview.models import Review, Ticket, User, UserBlock, UserFollows
 
 
 # Create your views here.

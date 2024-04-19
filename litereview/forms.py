@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from litereview import models
-from litereview.models import Ticket, Review, UserBlock
+from litereview.models import Review, Ticket, UserBlock
 
 
 class SignUpForm(UserCreationForm):
