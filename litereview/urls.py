@@ -66,6 +66,11 @@ urlpatterns = [
         litereview.views.review_page_update,
         name="review_page_update",
     ),
+    path(
+        "update_review/<str:review_id>",
+        litereview.views.update_review_page,
+        name="update_review_page",
+    ),
     path("block", litereview.views.block_page, name="block"),
     path("delete_post", litereview.views.delete_post, name="delete_post"),
     path("subscription", litereview.views.follower_page, name="subscription"),

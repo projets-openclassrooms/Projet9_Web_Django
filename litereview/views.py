@@ -390,6 +390,22 @@ def review_page_update(request, ticket_id):
 
 
 @login_required
+def update_review_page(request, review_id):
+    review = Review.objects.get(id=review_id)
+    print(review)
+    if request.method == "POST":
+        review_form = forms.ReviewForm(request.POST)
+        if review_form.is_valid():
+            review_form.save()
+            return redirect("posts")
+    else:
+        review_form = forms.ReviewForm(instance=review)
+        print(review_form.instance)
+    context = {"review_form": review_form, "post": post}
+    return render(request, "litereview/partials/create-review.html", context=context)
+
+
+@login_required
 def tickets_reviews_page(request):
     ticket_form = forms.TicketForm()
     review_form = forms.ReviewForm()
@@ -428,6 +444,7 @@ def unfollow_page(request):
                     user_follow.delete()
                     return redirect("subscription")
     return redirect("subscription")
+
 
 @login_required
 @require_POST
@@ -480,6 +497,7 @@ def block_page(request):
             follow.delete()
 
     return redirect("subscription")
+
 
 @login_required
 @require_POST
