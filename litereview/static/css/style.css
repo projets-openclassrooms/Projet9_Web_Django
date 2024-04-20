@@ -53,28 +53,37 @@
 
 }
 
-input[type="file"] {
+/* Cibler le champ "Image" */
+#{{ ticket_form.image }} {
   /* Changer la couleur de fond */
-  background-color: #007bff;
+  background-color: #f5f5f5;
 
-  /* Changer la couleur du texte */
-  color: #fff;
+  /* Changer la couleur de la bordure */
+  border: 1px solid #ccc;
 
   /* Ajouter des bordures arrondies */
   border-radius: 4px;
 
   /* Ajouter du padding */
-  padding: 8px 16px;
+  padding: 8px 12px;
 
   /* Changer la police */
   font-family: 'Arial', sans-serif;
 
   /* Ajouter des effets de survol */
-  transition: background-color 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
-input[type="file"]:hover {
-  background-color: #0056b3;
+/* Changer l'apparence du champ au survol */
+#{{ ticket_form.image }}:hover {
+  border-color: #999;
+}
+
+/* Changer l'apparence du champ lorsqu'il est sélectionné */
+#{{ ticket_form.image }}:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 i.checked {
