@@ -53,7 +53,29 @@
 
 }
 
+input[type="file"] {
+  /* Changer la couleur de fond */
+  background-color: #007bff;
 
+  /* Changer la couleur du texte */
+  color: #fff;
+
+  /* Ajouter des bordures arrondies */
+  border-radius: 4px;
+
+  /* Ajouter du padding */
+  padding: 8px 16px;
+
+  /* Changer la police */
+  font-family: 'Arial', sans-serif;
+
+  /* Ajouter des effets de survol */
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]:hover {
+  background-color: #0056b3;
+}
 
 i.checked {
   color: black;
