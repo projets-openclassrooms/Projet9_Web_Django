@@ -100,3 +100,6 @@ class BlockForm:
 
     def __init__(self):
         self.cleaned_data = None
+
+    def blocked(self):
+        pass

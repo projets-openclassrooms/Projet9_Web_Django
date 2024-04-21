@@ -49,9 +49,6 @@
   margin-top: 0.5rem;
 }
 
-.img {
-
-}
 
 /* Cibler le champ "Image" */
 #{{ ticket_form.image }} {
@@ -74,6 +71,18 @@
   transition: border-color 0.3s ease;
 }
 
+#id_image.form-file,
+ {
+  background-color: #007bff; /* Couleur de fond */
+  border-color: #007bff; /* Couleur de la bordure */
+  color: #fff; /* Couleur du texte */
+  padding: 0.5rem 1rem; /* Espacement interne */
+  font-size: 1rem; /* Taille de police */
+  border-radius: 0.25rem; /* Rayon des coins */
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Transition pour les effets */
+  margin: 4px; /* Espacement (gap) de 2px */
+
+}
 /* Changer l'apparence du champ au survol */
 #{{ ticket_form.image }}:hover {
   border-color: #999;
@@ -88,4 +97,21 @@
 
 i.checked {
   color: black;
+}
+
+.img {
+    width: 50px;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-radius: 3px;
+}
+
+.image-container {
+    max-width: 120px;
+    max-height: 100px;
+}
+
+.image-container {
+    width: 100%;
+    height: auto;
 }

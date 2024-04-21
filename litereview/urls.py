@@ -41,6 +41,7 @@ urlpatterns = [
     # path("testing", litereview.tests.test_testing, name="testing"),
     path("posts", litereview.views.posts_page, name="posts"),
     path("ticket", litereview.views.ticket_page, name="ticket"),
+    # Create
     path(
         "create_ticket/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"
     ),
@@ -56,11 +57,15 @@ urlpatterns = [
         litereview.views.review_page_update,
         name="create_review",
     ),
+    #Delete
     path(
         "delete-review/<str:ticket_id>",
         litereview.views.delete_review,
         name="delete-review",
     ),
+    path("delete_post", litereview.views.delete_post, name="delete_post"),
+
+    #Update
     path(
         "review_page_update/<str:ticket_id>",
         litereview.views.review_page_update,
@@ -71,8 +76,8 @@ urlpatterns = [
         litereview.views.update_review_page,
         name="update_review_page",
     ),
+
     path("block", litereview.views.block_page, name="block"),
-    path("delete_post", litereview.views.delete_post, name="delete_post"),
     path("subscription", litereview.views.follower_page, name="subscription"),
     path("unfollow/", litereview.views.unfollow_page, name="unfollow"),
 ]

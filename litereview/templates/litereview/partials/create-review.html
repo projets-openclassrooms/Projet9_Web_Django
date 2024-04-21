@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
-{%load static%}
 
-    <link rel="stylesheet" href="{% static 'litereview/styles.css' %}" />
 
 {% block content %}
+{% if ticket %}
+<p>Vous êtes en train de poster en réponse à</p>
+{{ticket}}
 
-{% endblock %}
+{% endif %}
+<h2>Créer une critique</h2>
+<form method="post" enctype="multipart/form-data" class="ticket-form">
+    <p>Critique</p>
+    {{ review_form.as_p }}
+    {% csrf_token %}
+    <br>
+    <div class="text-align-right">
+        <input type="submit" value="Envoyer" title="modifier critique">
+    </div>
+</form>
+
+{% endblock content %}
