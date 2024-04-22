@@ -62,9 +62,11 @@ def signup_page(request):
 def home_page(request):
     # Récupérer les informations de l'utilisateur
     user = request.user
+    tickets = Ticket.objects.filter(user=user).order_by('time_created')
 
     context = {
         "user": user,
+        "ticket": tickets,
     }
     return render(request, "litereview/home.html", context)
 

@@ -102,3 +102,9 @@ class UserBlock(models.Model):
             "user",
             "blocked_user",
         )
+
+    @property
+    def is_banned(self):
+        if self.blocked_user:
+            return True
+        return False
