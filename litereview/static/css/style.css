@@ -115,3 +115,28 @@ i.checked {
     width: 100%;
     height: auto;
 }
+
+/* Styles pour le formulaire */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  flex-basis: 150px;
+  text-align: right;
+  margin-right: 1rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.form-group p.text-danger {
+  margin-left: 1rem;
+}
