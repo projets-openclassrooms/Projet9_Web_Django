@@ -79,7 +79,6 @@ urlpatterns = [
 
     path("block", litereview.views.block_page, name="block"),
     path("subscription", litereview.views.follower_page, name="subscription"),
-    path("unfollow/", litereview.views.unfollow_page, name="unfollow"),
 ]
 
 urlpatterns += [

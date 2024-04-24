@@ -2,6 +2,7 @@ import copy
 import os
 from itertools import chain
 
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -432,34 +433,14 @@ def tickets_reviews_page(request):
 
 
 @login_required
-@require_POST
-def unfollow_page(request):
-    if request.method == "POST":
-        form = forms.UnfollowForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            user_to_unfollow = User.objects.filter(username=username).first()
-            if user_to_unfollow and user_to_unfollow != request.user:
-                user_follow = UserFollows.objects.filter(
-                    user=request.user, followed_user=user_to_unfollow
-                )
-                if user_follow.exists():
-                    user_follow.delete()
-                    return redirect("subscription")
-    return redirect("subscription")
-
-
-@login_required
-@require_POST
 def block_page(request):
-    block_form = BlockForm(request.POST)
+    block_form = BlockForm()
     if block_form.is_valid():
         username = block_form.cleaned_data.get("blocked_user")
         user_to_block = get_object_or_404(User, username=username)
-
         if user_to_block == request.user:
+            messages.error(request, message="Vous ne pouvez pas vous bloquer.")
             return redirect("subscription")
-
         block_relationship, created = UserBlock.objects.get_or_create(
             user=request.user, blocked_user=user_to_block
         )
@@ -468,38 +449,20 @@ def block_page(request):
             block_relationship.delete()
 
         # Unfollow the user if they were followed
-        follow = UserFollows.objects.filter(
+        followers = UserFollows.objects.filter(
             Q(user=request.user, followed_user=user_to_block) |
             Q(user=user_to_block, followed_user=request.user)
         )
-        print(follow)
-        if follow.exists():
-            follow.delete()
+        print(followers)
+        if followers.exists():
+            followers.delete()
+        return render(
+            request,
+            "litereview/partials/followers.html",
+            {
+                "followers": followers},
 
-    # Code to handle the "Bloquer" button in the followers list
-    if "post_value" in request.POST:
-        username_to_block = request.POST.get("post_value")
-        user_to_block = get_object_or_404(User, username=username_to_block)
-
-        if user_to_block == request.user:
-            return redirect("subscription")
-
-        block_relationship, created = UserBlock.objects.get_or_create(
-            user=request.user, blocked_user=user_to_block
         )
-
-        if not created:
-            block_relationship.delete()
-
-        # Unfollow the user if they were followed
-        follow = UserFollows.objects.filter(
-            Q(user=request.user, followed_user=user_to_block) |
-            Q(user=user_to_block, followed_user=request.user)
-        )
-        if follow.exists():
-            follow.delete()
-
-    return redirect("subscription")
 
 
 @login_required

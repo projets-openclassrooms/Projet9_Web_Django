@@ -1,0 +1,24 @@
+<div class="container py-5">
+    <div class="mb-3">
+        <h2 class="text-center mb-4">Mes abonnés</h2>
+        <ul class="list-group">
+            {% for follower in followers %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ follower.user.username }}
+
+
+                <form method="post" class="d-inline" action="/block_page/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Bloquer</button>
+                </form>
+
+
+            </li>
+            {% empty %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">Vous n'avez aucun
+                abonné.
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

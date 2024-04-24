@@ -87,12 +87,11 @@ class UserFollows(models.Model):
 
 
 class UserBlock(models.Model):
-    objects = None
     user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blocking"
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user"
     )
     blocked_user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blocked_by"
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_blocked"
     )
 
     class Meta:
