@@ -39,12 +39,9 @@ INSTALLED_APPS = [
     "litereview",
     "django_bootstrap5",
     "js_lib_bootstrap5",
-    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -134,7 +131,3 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "medias/")
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
