@@ -247,10 +247,15 @@ def posts_page(request):
 @login_required
 def follower_page(request):
     follow_form = forms.FollowForm()
+    # liste des follower bloques
+    blocked_users = UserBlock.objects.filter(user=request.user)
+    print(blocked_users)
+    blocked_users_id = blocked_users.values_list('blocked_user', flat=True)
     # les abonnements
     followed_user = UserFollows.objects.filter(user=request.user)
     # les abonnes
-    followers = UserFollows.objects.filter(followed_user=request.user)
+    followers = UserFollows.objects.filter(followed_user=request.user).exclude(user__id__in=blocked_users_id)
+
     display_error = None
     # print("here")
     if request.method == "POST":

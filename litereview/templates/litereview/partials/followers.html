@@ -2,8 +2,8 @@
     <div class="mb-3">
         <h2 class="text-center mb-4">Mes abonnés</h2>
         <ul class="list-group">
-            {% if not blocked_user %}
-            {% for follower in followers %}
+
+        {% for follower in followers %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ follower.user.username }}
                 <form method="post" class="d-inline" action="/block/">
@@ -18,7 +18,6 @@
                 abonné.
             </li>
             {% endfor %}
-            {% endif %}
         </ul>
     </div>
 </div>
