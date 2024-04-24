@@ -77,7 +77,7 @@ urlpatterns = [
         name="update_review_page",
     ),
 
-    path("block", litereview.views.block_page, name="block"),
+    path("block/<str:blocked_user_id>", litereview.views.block_page, name="block"),
     path("subscription", litereview.views.follower_page, name="subscription"),
 ]
 

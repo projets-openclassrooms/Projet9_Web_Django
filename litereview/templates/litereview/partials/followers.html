@@ -5,14 +5,12 @@
             {% for follower in followers %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ follower.user.username }}
+                <form method="post" class="d-inline" action="/block/">
+                    <input type="hidden" name="post_value" value="{{ follower.user.username }}">
 
-
-                <form method="post" class="d-inline" action="/block_page/">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger btn-sm">Bloquer</button>
                 </form>
-
-
             </li>
             {% empty %}
             <li class="list-group-item d-flex justify-content-between align-items-center">Vous n'avez aucun
@@ -21,4 +19,26 @@
             {% endfor %}
         </ul>
     </div>
+</div>
+<div class="container py-5">
+    <ul class="list-group">
+        <div class="container d-flex flex-column align-items-center gap-2 mb-3">
+            <h3 class="h3"> Abonnés bloqués</h3>
+        </div>
+        <div class="container d-flex flex-column align-items-center gap-2 mb-3">
+
+            {% for blocked_user in user.user.all %}
+            <form action=""
+                  method="post"
+                  class="d-flex gap-4 align-items-baseline">
+                {% csrf_token %}
+                <p> {{ blocked_user.blocked_user.username }}</p>
+                <input type="hidden" name="username"
+                       value="{{ blocked_user.blocked_user.username }}"
+                       readonly class="form-control"/>
+
+            </form>
+            {% endfor %}
+        </div>
+    </ul>
 </div>
