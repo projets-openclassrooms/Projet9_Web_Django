@@ -63,7 +63,7 @@ def signup_page(request):
 def home_page(request):
     # Récupérer les informations de l'utilisateur
     user = request.user
-    tickets = Ticket.objects.filter(user=user).order_by('time_created')
+    tickets = Ticket.objects.filter(user=user).order_by("time_created")
 
     context = {
         "user": user,
@@ -449,8 +449,8 @@ def block_page(request, blocked_user_id):
 
         # Unfollow the user if they were followed
         followers = UserFollows.objects.filter(
-            Q(user=request.user, followed_user=user_to_block) |
-            Q(user=user_to_block, followed_user=request.user)
+            Q(user=request.user, followed_user=user_to_block)
+            | Q(user=user_to_block, followed_user=request.user)
         )
         print(followers)
         if followers.exists():
@@ -461,7 +461,9 @@ def block_page(request, blocked_user_id):
                 "litereview/partials/followers.html",
                 {
                     "followers": followers,
-                    "blocked_user": blocked_user, })
+                    "blocked_user": blocked_user,
+                },
+            )
 
 
 @login_required

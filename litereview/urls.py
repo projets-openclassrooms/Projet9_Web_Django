@@ -43,7 +43,9 @@ urlpatterns = [
     path("ticket", litereview.views.ticket_page, name="ticket"),
     # Create
     path(
-        "create_ticket/<int:ticket_id>", litereview.views.modify_ticket, name="modify_ticket"
+        "create_ticket/<int:ticket_id>",
+        litereview.views.modify_ticket,
+        name="modify_ticket",
     ),
     path("review/", litereview.views.review_page, name="review"),
     # path("modify", litereview.views.modify_page, name="modify"),
@@ -57,15 +59,14 @@ urlpatterns = [
         litereview.views.review_page_update,
         name="create_review",
     ),
-    #Delete
+    # Delete
     path(
         "delete-review/<str:ticket_id>",
         litereview.views.delete_review,
         name="delete-review",
     ),
     path("delete_post", litereview.views.delete_post, name="delete_post"),
-
-    #Update
+    # Update
     path(
         "review_page_update/<str:ticket_id>",
         litereview.views.review_page_update,
@@ -76,7 +77,6 @@ urlpatterns = [
         litereview.views.update_review_page,
         name="update_review_page",
     ),
-
     path("block/<str:blocked_user_id>", litereview.views.block_page, name="block"),
     path("subscription", litereview.views.follower_page, name="subscription"),
 ]

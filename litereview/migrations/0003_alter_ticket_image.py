@@ -5,13 +5,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('litereview', '0002_userblock'),
+        ("litereview", "0002_userblock"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ticket',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='tickets'),
+            model_name="ticket",
+            name="image",
+            field=models.ImageField(blank=True, null=True, upload_to="tickets"),
         ),
     ]

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+
 # Create your models here.
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -91,7 +92,9 @@ class UserBlock(models.Model):
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user"
     )
     blocked_user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_blocked"
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user_blocked",
     )
 
     class Meta:
