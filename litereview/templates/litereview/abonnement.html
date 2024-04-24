@@ -3,15 +3,14 @@
 {% block content %}
 <div class="container py-5">
    <h2 class="text-center mb-4">Suivre d'autres utilisateurs</h2>
-   <form method="post" class="mb-3">
+
+    <form method="post" class="mb-3">
       {% csrf_token %}
       <div class="form-group">
-         <label for="username">Nom d'utilisateur :</label>
          <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="username" name="username"
                 required>
-      </div>
-      <div>
-         <input type="hidden" name="post_value" value="follow">
+
+          <input type="hidden" name="post_value" value="follow">
          <button type="submit" class="btn btn-primary">Envoyer</button>
       </div>
    </form>
