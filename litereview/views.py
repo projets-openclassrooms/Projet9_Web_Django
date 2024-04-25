@@ -394,7 +394,7 @@ def review_page_update(request, ticket_id):
         review_form = forms.ReviewForm()
         print(review_form.instance)
     context = {"review_form": review_form, "ticket": ticket}
-    return render(request, "litereview/partials/create-review.html", context=context)
+    return render(request, "litereview/partials/update-all_reviews.html", context=context)
 
 
 @login_required
