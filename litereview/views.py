@@ -394,7 +394,7 @@ def review_page_update(request, ticket_id):
         review_form = forms.ReviewForm()
         print(review_form.instance)
     context = {"review_form": review_form, "ticket": ticket}
-    return render(request, "litereview/partials/update-all_reviews.html", context=context)
+    return render(request, "litereview/partials/create-review.html", context=context)
 
 
 @login_required
@@ -541,27 +541,4 @@ def modify_review(request, review_id):
         request,
         "litereview/partials/modify.html",
         {"review": review, "review_form": review_form},
-    )
-
-
-def process_post_request(request):
-    ticket_id = request.POST.get("ticket_id")
-    ticket = get_object_or_404(Ticket, id=ticket_id)
-    review_form = forms.ReviewForm(request.POST)
-    if review_form.is_valid():
-        review = review_form.save(commit=False)
-        review.ticket = ticket
-        review.user = request.user
-        review.save()
-        return redirect("flux")
-
-
-def process_get_request(request):
-    ticket_id = request.GET.get("ticket_id")
-    ticket = get_object_or_404(Ticket, id=ticket_id)
-    review_form = forms.ReviewForm()
-    return render(
-        request,
-        "litereview/replyticket.html",
-        {"review_form": review_form, "ticket": ticket},
     )
