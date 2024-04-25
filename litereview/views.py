@@ -109,7 +109,7 @@ def create_review(request, ticket_id, review_id):
             review_form = forms.ReviewForm(instance=reviews)
         return render(
             request,
-            "litereview/create_review.html",
+            "litereview/reply_review.html",
             context={"review_form": review_form, "post": post},
         )
     else:
@@ -433,7 +433,7 @@ def tickets_reviews_page(request):
             return redirect("feed")
 
     context = {"ticket_form": ticket_form, "review_form": review_form}
-    return render(request, "litereview/create_review.html", context=context)
+    return render(request, "litereview/reply_review.html", context=context)
 
 
 @login_required
