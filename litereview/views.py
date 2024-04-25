@@ -459,7 +459,7 @@ def block_page(request, blocked_user_id):
         if unfollowers.exists():
             unfollowers.delete()
             blocked_user = user_to_block.username
-            return render(
+            render(
                 request,
                 "litereview/partials/followers.html",
                 {
@@ -467,7 +467,7 @@ def block_page(request, blocked_user_id):
                     "blocked_user": blocked_user,
                 },
             )
-    return render(request, "block_page.html", {"block_form": block_form})
+    return redirect("subscription")
 
 
 @login_required
