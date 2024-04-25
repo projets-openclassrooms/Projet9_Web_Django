@@ -439,35 +439,35 @@ def tickets_reviews_page(request):
 @login_required
 def block_page(request, blocked_user_id):
     block_form = BlockForm()
-    if block_form:
+    if request.method == 'POST':
         user_to_block = get_object_or_404(User, id=blocked_user_id)
-        if user_to_block == request.user.id:
+        if user_to_block == request.user:
             messages.error(request, message="Vous ne pouvez pas vous bloquer.")
             return redirect("subscription")
         block_relationship, created = UserBlock.objects.get_or_create(
-            user=request.user.id, blocked_user=user_to_block
+            user=request.user, blocked_user=user_to_block
         )
 
         if not created:
             block_relationship.delete()
 
         # Unfollow the user if they were followed
-        followers = UserFollows.objects.filter(
+        unfollowers = UserFollows.objects.filter(
             Q(user=request.user, followed_user=user_to_block)
             | Q(user=user_to_block, followed_user=request.user)
         )
-        print(followers)
-        if followers.exists():
-            followers.delete()
-            blocked_user = blocked_user_id.name
+        if unfollowers.exists():
+            unfollowers.delete()
+            blocked_user = user_to_block.username
             return render(
                 request,
                 "litereview/partials/followers.html",
                 {
-                    "followers": followers,
+                    "followers": unfollowers,
                     "blocked_user": blocked_user,
                 },
             )
+    return render(request, "block_page.html", {"block_form": block_form})
 
 
 @login_required
