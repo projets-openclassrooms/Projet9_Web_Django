@@ -124,7 +124,7 @@ def feed_page(request):
     """
     tickets_with_reviews = []
     followed_users = request.user.follows.all()
-    # print(followed_users)
+    print(followed_users)
     # Récupérer les tickets et critiques créés par les utilisateurs suivis et l'utilisateur actuel
     reviews = Review.objects.filter(
         Q(user__in=followed_users) | Q(user=request.user) | Q(ticket__user=request.user)
@@ -399,18 +399,17 @@ def review_page_update(request, ticket_id):
 
 @login_required
 def update_review_page(request, review_id):
-    review = Review.objects.get(id=review_id)
-    post = review.ticket
+    review = get_object_or_404(Review, id=review_id)
     print(review)
+    if request.user != review.user:
+        raise PermissionError
+    review_form = forms.ReviewForm(instance=review)
     if request.method == "POST":
-        review_form = forms.ReviewForm(request.POST)
+        review_form = forms.ReviewForm(request.POST, instance=review)
         if review_form.is_valid():
             review_form.save()
             return redirect("posts")
-    else:
-        review_form = forms.ReviewForm(instance=review)
-        print(review_form.instance)
-    context = {"review_form": review_form, "post": post}
+    context = {"review_form": review_form, "review": review}
     return render(request, "litereview/partials/update-review.html", context=context)
 
 
