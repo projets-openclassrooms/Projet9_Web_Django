@@ -51,7 +51,7 @@
 
 
 /* Cibler le champ "Image" */
-#{{ ticket_form.image }} {
+ticket_form.image {
   /* Changer la couleur de fond */
   background-color: #f5f5f5;
 
@@ -84,12 +84,12 @@
 
 }
 /* Changer l'apparence du champ au survol */
-#{{ ticket_form.image }}:hover {
+ticket_form.image:hover {
   border-color: #999;
 }
 
 /* Changer l'apparence du champ lorsqu'il est sélectionné */
-#{{ ticket_form.image }}:focus {
+ticket_form.image:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
@@ -117,27 +117,27 @@ i.checked {
 }
 
 /* Styles pour le formulaire */
-.form-group {
+.form-control {
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
 }
 
-.form-group label {
+.form-control label {
   flex-basis: 150px;
   text-align: right;
   margin-right: 1rem;
 }
 
-.form-group input[type="text"],
-.form-group input[type="password"] {
+.form-control input[type="text"],
+.form-control input[type="password"] {
   flex-grow: 1;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
 }
 
-.form-group p.text-danger {
+.form-control p.text-danger {
   margin-left: 1rem;
 }
 
@@ -150,7 +150,7 @@ form.list_form {
 form.list_form > select{
 
 }
-form.list_form .form-group {
+form.list_form .form-control {
   margin-bottom: 20px;
 }
 
@@ -188,4 +188,32 @@ input[type=checkbox],
  {
     display: inline_block;
     width: 50%; /* Cela dépend de ton choix pour le width [smile] */
+}
+
+.fa-star {
+    color: blue;
+}
+
+.input:checked ~ .label .fa-star {
+    color: #ddd;
+}
+
+.input:hover ~ .label .fa-star {
+    color: #ddd;
+}
+
+.rating-checkbox:hover ~ .label .fa-star {
+    color: blue;
+        display: inline-flex;
+
+}
+
+.form-control {
+    width: 500px;
+    display: inline_block;
+    border: 2px solid black;
+    margin: 4px;
+    padding: 10px 20px;
+    border-radius: 5px;
+
 }
