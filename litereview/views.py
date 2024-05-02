@@ -38,7 +38,7 @@ def index_page(request):
             )
             if user is not None:
                 login(request, user)
-                url = "litereview/home.html"
+                url = "litereview/flux.html"
                 return redirect(settings.LOGIN_REDIRECT_URL)
             else:
                 message = "Identifiants invalides"

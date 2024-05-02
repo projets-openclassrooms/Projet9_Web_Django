@@ -25,7 +25,7 @@ import litereview.views
 
 urlpatterns = [
     # path("", litereview.views.index_page, name="login"),
-    path("index/", litereview.views.index_page, name="home"),
+    path("index/", litereview.views.feed_page, name="home"),
     path("signup/", litereview.views.signup_page, name="signup"),
     path(
         "login/",
