@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">Flux</h2>
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <div class="d-grid gap-2">
+                <a class="btn btn-primary btn-lg" href="/ticket" role="button">Demander une critique</a>
+                <a class="btn btn-primary btn-lg" href="/review" role="button">Créer une critique ou une revue</a>
+            </div>
+        </div>
+    </div>
+
+
+    {% for instance in tickets_with_reviews %}
+    <div class="row d-flex justify-content-center mb-4">
+        {% if instance.content_type == "REVIEW" %}
+        {% include './partials/review_snippet.html' %}
+        {% else %}
+        {% include './partials/ticket_snippet.html' %}
+
+        {% endif %}
+        {% endfor %}
+
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{%load static%}
+
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-5">Créer une critique</h2>
+    <form method="post" class="rev_form" enctype="multipart/form-data">
+        <div class="mb-5">
+            <p>Livre / Article :</p>
+            {{ ticket_form.title }}
+        </div>
+        <div class="mb-5">
+            <p>Description :</p>
+            {{ ticket_form.description }}
+        </div>
+        <div class="mb-5">
+            <p>Image :</p>
+            {{ ticket_form.image }}
+        </div>
+        <div class="mb-5">
+            <p>Titre :</p>
+            {{ review_form.headline }}
+        </div>
+        <div class="mb-5">
+            <p>Notes (0-5)</p>
+            <div class="container_radio">
+                {% for radio in review_form.rating %}
+                {{ radio }}
+                {{ forloop.counter0 }}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mb-5">
+            <p>Commentaire :</p>
+            {{ review_form.body }}
+        </div>
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Envoyer">
+    </form>
+</div>
+{% endblock %}

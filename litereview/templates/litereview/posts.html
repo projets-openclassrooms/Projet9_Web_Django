@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-4">
+    <h2 class="text-center mb-4">Vos posts</h2>
+    {% for post in tickets_with_reviews %}
+    <div class="card  justify-content-center mb-4">
+        {% if post.review %}
+        <div class="card-header">
+            <p class="mb-0">{{ post.review.user }} a créé une revue</p>
+            <p class="mb-0">{{ post.review.time_created }}</p>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">{{ post.review.headline }}</h3>
+            <p class="card-text">{{ post.review.body }}</p>
+            <div class="d-flex justify-content-start align-items-center mb-3">
+                <i class="fas fa-star text-warning">
+                    {% for _ in "x"|rjust:post.review.rating %}
+                </i>
+                {% endfor %}
+            </div>
+            <div class="card bg-light mb-3">
+                <div class="card-header">
+                    <p class="mb-0">Ticket - {{ post.ticket.user }}</p>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ post.ticket.title }}</h4>
+                    <p class="card-text">{{ post.ticket.description }}</p>
+                    {% if post.ticket.image %}
+                    <a href="/media/{{ post.ticket.image }}">
+                        <img class="img-fluid w-33" src="/media/{{ post.ticket.image }}" alt="{{ post.ticket.title }}">
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% if post.review.user == request.user %}
+            <div class="d-flex justify-content-end">
+                <form method="post" action="/posts" class="me-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_value" value="delete-review_{{ post.ticket.id }}">
+                    <button class="btn btn-danger" type="submit">Supprimer la revue</button>
+                </form>
+                <form method="post" action="/posts">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_value" value="update-review_{{ post.ticket.id }}">
+                    <button class="btn btn-primary btn-sm" type="submit">Modifier la revue</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="card-header">
+            <p class="mb-0">{{ post.ticket.user }} a créé un ticket</p>
+            <p class="mb-0">{{ post.ticket.time_created }}</p>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">{{ post.ticket.title }}</h3>
+            <p class="card-text">{{ post.ticket.description }}</p>
+            {% if post.ticket.image %}
+            <a href="/media/{{ post.ticket.image }}">
+                <img class="img-fluid w-33" src="/media/{{ post.ticket.image }}"
+                     alt="{{ post.ticket.title }}">
+            </a>
+            <p></p>
+            {% endif %}
+            {% if post.ticket.user == request.user %}
+            <div class="d-flex justify-content-end">
+                <form method="post" action="/posts" class="me-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_value" value="delete-ticket_{{ post.ticket.id }}">
+                    <button class="btn btn-danger" type="submit">Supprimer le ticket</button>
+                </form>
+                <form method="post" action="/posts">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_value" value="update-ticket_{{ post.ticket.id }}">
+                    <button class="btn btn-primary btn-sm" type="submit">Modifier le ticket</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+<div class="col-md-6 mb-4">
+    <div class="card  justify-content-center mb-4">
+        <div class="card-header">
+            <p class="col-md-6 mb-4">{{ instance.user }} a créé une revue</p>
+            <small class="text-muted">{{ instance.time_created }}</small>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">{{ instance.headline }}</h3>
+            <p class="card-text">{{ instance.body }}</p>
+            <div class="d-flex justify-content-start align-items-center mb-3">
+                {% for _ in instance.rating|rjust:instance.rating %}
+                {% if instance.rating > 0%}<i class="fa fa-star checked">&#11088;
+                {% endif %}
+                {% endfor %}
+                </i>
+
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <p class="col-md-6 mb-4">Ticket - {{ instance.ticket.user }}</p>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ instance.ticket.title }}</h4>
+                    <p class="card-text">{{ instance.ticket.description }}</p>
+                    {% if instance.ticket.image %}
+                    <a href="/media/{{ instance.ticket.image }}">
+                        <img class="img-thumbnail" src="/media/{{ instance.ticket.image }}"
+                             alt="Ticket Image">
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

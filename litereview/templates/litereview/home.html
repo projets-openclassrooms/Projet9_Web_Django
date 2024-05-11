@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block home %}
+
+<div class="container d-grid gap-3">
+    <div class="row text-center mt-4">
+        <div class="col">
+            <h2>Flux</h2>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col p-0">
+            <a href="{% url 'create_ticket' %}" class="btn btn-dark w-75">Demander une critique x</a>
+        </div>
+
+
+        <div class="col p-0">
+            <a href="{% url 'create_review' %}" class="btn btn-dark w-75">Créer une critique</a>
+        </div>
+    </div>
+
+    {% for post in posts %}
+    {% if post.content_type == "TICKET" %}
+        <hr class="my-4">
+
+    <h2 class="mt-4">TICKETS</h2>
+
+    <p> {% include './partials/ticket_partial.html' with ticket=ticket %}</p>
+
+    {% elif post.content_type == "REVIEW" %}
+    <h2 class="mt-4">REVUES</h2>
+
+    <p>{% include './partials/review_partial.html' with review=item %}</p>
+
+    <h2 class="mt-4">TICKET</h2>
+
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock home %}

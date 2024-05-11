@@ -1,0 +1,219 @@
+/* Styles généraux */
+* {
+  margin-top: 2px;
+}
+/* Styles pour les boutons primaires */
+.btn.btn-primary {
+  background-color: #007bff; /* Couleur de fond */
+  border-color: #007bff; /* Couleur de la bordure */
+  color: #fff; /* Couleur du texte */
+  padding: 0.5rem 1rem; /* Espacement interne */
+  font-size: 1rem; /* Taille de police */
+  border-radius: 0.25rem; /* Rayon des coins */
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Transition pour les effets */
+  margin: 4px; /* Espacement (gap) de 2px */
+}
+
+.btn.btn-primary:hover {
+  background-color: #0069d9; /* Couleur de fond au survol */
+  border-color: #0062cc; /* Couleur de la bordure au survol */
+}
+
+.btn.btn-primary:focus,
+.btn.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5); /* Ombre de focus */
+}
+
+.btn.btn-primary:active,
+.btn.btn-primary.active,
+.show > .btn.btn-primary.dropdown-toggle {
+  background-color: #0062cc; /* Couleur de fond active */
+  border-color: #005cbf; /* Couleur de la bordure active */
+}
+
+.btn.btn-primary:disabled,
+.btn.btn-primary.disabled {
+  background-color: #007bff; /* Couleur de fond désactivé */
+  border-color: #007bff; /* Couleur de la bordure désactivé */
+  opacity: 0.65; /* Opacité désactivé */
+}
+
+.column.justify-content-center.mb-4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+.btn.btn-danger {
+  margin-top: 0.5rem;
+}
+
+
+/* Cibler le champ "Image" */
+ticket_form.image {
+  /* Changer la couleur de fond */
+  background-color: #f5f5f5;
+
+  /* Changer la couleur de la bordure */
+  border: 1px solid #ccc;
+
+  /* Ajouter des bordures arrondies */
+  border-radius: 4px;
+
+  /* Ajouter du padding */
+  padding: 8px 12px;
+
+  /* Changer la police */
+  font-family: 'Arial', sans-serif;
+
+  /* Ajouter des effets de survol */
+  transition: border-color 0.3s ease;
+}
+
+#id_image.form-file,
+ {
+  background-color: #007bff; /* Couleur de fond */
+  border-color: #007bff; /* Couleur de la bordure */
+  color: #fff; /* Couleur du texte */
+  padding: 0.5rem 1rem; /* Espacement interne */
+  font-size: 1rem; /* Taille de police */
+  border-radius: 0.25rem; /* Rayon des coins */
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Transition pour les effets */
+  margin: 4px; /* Espacement (gap) de 2px */
+
+}
+/* Changer l'apparence du champ au survol */
+ticket_form.image:hover {
+  border-color: #999;
+}
+
+/* Changer l'apparence du champ lorsqu'il est sélectionné */
+ticket_form.image:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+i.checked {
+  color: black;
+}
+
+.img {
+    width: 50px;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-radius: 3px;
+}
+
+.image-container {
+    max-width: 120px;
+    max-height: 100px;
+}
+
+.image-container {
+    width: 100%;
+    height: auto;
+}
+
+/* Styles pour le formulaire */
+.form-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-control label {
+  flex-basis: 150px;
+  text-align: right;
+  margin-right: 1rem;
+}
+
+.form-control input[type="text"],
+.form-control input[type="password"] {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.form-control p.text-danger {
+  margin-left: 1rem;
+}
+
+form.list_form {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+form.list_form > select{
+
+}
+form.list_form .form-control {
+  margin-bottom: 20px;
+}
+
+form.list_form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+form.list_form .form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+form.list_form .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+form.list_form .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004a99;
+}
+
+input[type=checkbox],
+#id_rating
+ {
+    display: inline_block;
+    width: 50%; /* Cela dépend de ton choix pour le width [smile] */
+}
+
+.fa-star {
+    color: blue;
+}
+
+.input:checked ~ .label .fa-star {
+    color: #ddd;
+}
+
+.input:hover ~ .label .fa-star {
+    color: #ddd;
+}
+
+.rating-checkbox:hover ~ .label .fa-star {
+    color: blue;
+        display: inline-flex;
+
+}
+
+.form-control {
+    width: 500px;
+    display: inline_block;
+    border: 2px solid black;
+    margin: 4px;
+    padding: 10px 20px;
+    border-radius: 5px;
+
+}

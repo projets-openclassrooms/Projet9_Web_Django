@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{%load static%}
+
+
+{% block content %}
+<h1>Reviews du ticket "{{ ticket.title }}"</h1>
+
+{% if reviews %}
+<ul>
+    {% for review in reviews %}
+    <li>
+        <h4>{{ review.headline }}</h4>
+        <p>{{ review.body }}</p>
+        <p>Note : {{ review.rating }}/5</p>
+        <p>Auteur : {{ review.user.username }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Aucune review disponible pour ce ticket.</p>
+{% endif %}
+{% endblock %}
